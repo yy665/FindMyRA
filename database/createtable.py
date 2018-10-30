@@ -5,6 +5,7 @@ Project = """CREATE TABLE Project(
     Project_id CHAR(10) NOT NULL,
     Project_Name CHAR(50),
     Sponsor CHAR(20),
+    Active BOOLEAN,
     PRIMARY KEY(Project_id)
 );"""
 
@@ -12,7 +13,7 @@ Researcher = """CREATE TABLE Researcher(
     Researcher_id CHAR(10) NOT NULL,
     FirstName CHAR(20),
     LastName CHAR(20),
-    Resume CHAR(50),
+    Resume CHAR(500),
     PRIMARY KEY(Researcher_id)
 );"""
 
