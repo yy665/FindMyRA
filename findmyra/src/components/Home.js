@@ -3,7 +3,7 @@ import React from 'react';
 const Home = (prop) => {
     return(
         <div>
-          Welcome to FIND MY RA.
+          Welcome to FIND MY RA
             
         </div>
         

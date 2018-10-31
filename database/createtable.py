@@ -42,7 +42,7 @@ Student = """CREATE TABLE Student(
     Degree CHAR(10),
     SchoolYear CHAR(10),
     GPA FLOAT,
-    GropuPreference CHAR(20),
+    GroupPreference CHAR(20),
     Advisor CHAR(10),
     FOREIGN KEY (Advisor) REFERENCES Advisor (Adviosr_id)
 );"""
