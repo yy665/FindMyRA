@@ -60,7 +60,7 @@ class peopleComp extends Component {
 
             data = {
                 table: "Advisor",
-                id : this.state.id,
+                id : Math.floor(Math.random()*10000),
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 seeking: this.state.seeking,

@@ -18,7 +18,7 @@ router.post('/', function(req, res, next) {
   switch(req.body.table){
     case 'Advisor':
       sql = "INSERT INTO " + req.body.table + " VALUES" + "(\"" + req.body.id +"\",\""+ req.body.firstname + "\",\""+ req.body.lastname 
-      + "\","+ req.body.seeking + ","+ req.body.title +")" ;
+      + "\","+ req.body.seeking + ",\""+ req.body.title +"\")" ;
       break;
     case 'Student':
       sql = "INSERT INTO " + req.body.table + " VALUES" + "(\"" + req.body.id +"\",\""+ req.body.firstname + "\",\""+ req.body.lastname 
