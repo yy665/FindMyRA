@@ -3,7 +3,8 @@ import React,{Component} from 'react';
 class peopleComp extends Component {
     constructor(props){
         super(props);
-        this.state = {identity: null,
+        this.state = {id : 0,
+                    identity: null,
                     firstname: null,
                     lastname: null,
                     seeking: 1,
@@ -20,13 +21,14 @@ class peopleComp extends Component {
     }
     handleClick(e){
         if(e.target.id === "s"){
+            this.setState({id:Math.floor(Math.random()*10000)});
             this.setState({fullsql: "INSERT INTO Student"+this.state.sql+
-            "VALUES ("+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
+            "VALUES ("+this.state.id+","+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
             this.state.group+","+this.state.advisor+")"});
 
             // send to the backend
             var sqlsentence = "INSERT INTO Student"+this.state.sql+
-            "VALUES ("+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
+            "VALUES ("+this.state.id+","+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
             this.state.group+","+this.state.advisor+")";
             console.log(sqlsentence);
             var data = {"Operation" : "insert",
@@ -46,12 +48,13 @@ class peopleComp extends Component {
               .catch(error=> console.log('Error:', error));
         }
         else{
+            this.setState({id: Math.floor(Math.random()*10000)});
             this.setState({fullsql: "INSERT INTO Advisor" + this.state.sql+
-            " VALUES (" + "1234567890," + this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
+            " VALUES ("+this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
 
             // send to the backend
             var sqlsentence = "INSERT INTO Advisor" + this.state.sql+
-            " VALUES (" + "2345678901," + this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")";
+            " VALUES (" + this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")";
             console.log(sqlsentence);
             var data = {"Operation" : "insert",
                         "Entity": "Advisor",
@@ -105,13 +108,13 @@ class peopleComp extends Component {
             Layer1.style.visibility = "visible";
             Layer2.style.visibility = "hidden";
             this.setState({identity:val})
-            this.setState({sql:"(FirstName,LastName,SeekingStatus,Degree,SchoolYear,GPA,GroupPreference,Advisor)"});
+            this.setState({sql:"(id,FirstName,LastName,SeekingStatus,Degree,SchoolYear,GPA,GroupPreference,Advisor)"});
         }
         else if(val === "Professor"){
             Layer1.style.visibility = "hidden";
             Layer2.style.visibility = "visible";
             this.setState({identity:val});
-            this.setState({sql:"(FirstName,LastName,SeekingStatus,Title)"})
+            this.setState({sql:"(id,FirstName,LastName,SeekingStatus,Title)"})
         }
 
     }
@@ -131,10 +134,10 @@ class peopleComp extends Component {
         <div id = "Layer1" style = {{visibility: "hidden"}}>
             <div>
             First name:
-                <input type="text" name="firstname" onChange={this.handleChange} value={this.state.firstname}></input>
+                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input>
                 
                 Last name:
-                <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange}></input>
+                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input>
             </div>
 
             <div>
@@ -204,10 +207,10 @@ class peopleComp extends Component {
             <div id = "Layer2" style = {{top: "100px", visibility: "hidden"}}>
             <div>
             First name:
-                <input type="text" name="firstname" onChange={this.handleChange} value={this.state.firstname}></input>
+                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input>
                 
                 Last name:
-                <input type="text" name="lastname" value={this.state.lastname} onChange={this.handleChange}></input>
+                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input>
             </div>
 
             <div>

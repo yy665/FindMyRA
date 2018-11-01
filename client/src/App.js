@@ -37,7 +37,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <body>
         <div>
         <Link to = "/"> Home </Link>
         </div>
@@ -54,7 +53,7 @@ class App extends Component {
         <Link to = "/Delete"> Delete Your Profile </Link>
         </div>
 
-        </body>
+        
         <hr />
         <Route exact path = "/" component={Home} />
         <Route path = "/Insert" component = {PeopleComp}/>

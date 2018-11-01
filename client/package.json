@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.4",
+    "antd": "^3.10.3",
     "axios": "^0.18.0",
     "child_process": "^1.0.2",
     "express": "^4.16.4",
