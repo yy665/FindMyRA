@@ -50,7 +50,7 @@ class UpdateComp extends Component {
 				render:(text,record,index)=>(<span>
 						<Button id={text} type = "primary" onClick = {this.handleStudentUpdate}> Update </Button>
 						<Divider type = "vertical"/>
-						<Button id={text} type = "danger" onClick = {this.handleDelete}> Delete </Button>
+						<Button id={text} type = "danger" onClick = {this.sHandleDelete}> Delete </Button>
 						</span>
 						)}],
 //Advisor display
@@ -78,7 +78,7 @@ class UpdateComp extends Component {
 				render:(text,record)=>(<span>
 						<Button id={text} onClick = {this.handleAdvisorUpdate} type = "primary"> Update </Button>
 						<Divider type = "vertical"/>
-						<Button id={text} onClick = {this.handleDelete} type = "danger"> Delete </Button>
+						<Button id={text} onClick = {this.aHandleDelete} type = "danger"> Delete </Button>
 						</span>
 						)}],
 
@@ -179,7 +179,8 @@ class UpdateComp extends Component {
 		this.handleSChange = this.handleSChange.bind(this);
 		this.handleAChange = this.handleAChange.bind(this);
         this.handleStudentUpdate = this.handleStudentUpdate.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
+		this.sHandleDelete = this.sHandleDelete.bind(this);
+		this.aHandleDelete = this.aHandleDelete.bind(this);
         this.handleAdvisorUpdate = this.handleAdvisorUpdate.bind(this);
 
 
@@ -408,7 +409,129 @@ class UpdateComp extends Component {
         else if(e.target.name === "title")this.setState({title:e.target.value});
 	}
 
-	handleDelete(e){
+	sHandleDelete(e){
+		// var id = e.target.id;
+
+		if(1){
+			var adata = {
+				table: "Student",
+				id : e.target.id
+			}
+			fetch(`/delete`, {
+				method: 'Post',
+				body: JSON.stringify(adata),
+				headers:{
+				  'Access-Control-Allow-Origin': '*',
+				  'Access-Control-Allow-Credentials':true,
+				  'Access-Control-Allow-Methods':'POST, GET',
+				  "Content-Type": "application/json"
+				}
+			  }).then(res => res.json()).then(
+				adata => {
+
+					console.log(adata);	
+					//re get the current database
+					global.constants[1] = [];
+					var a2data = {
+						table: "Student"
+					}
+					fetch(`/demonstrate`, {
+						method: 'Post',
+						body: JSON.stringify(a2data),
+						headers:{
+						  'Access-Control-Allow-Origin': '*',
+						  'Access-Control-Allow-Credentials':true,
+						  'Access-Control-Allow-Methods':'POST, GET',
+						  "Content-Type": "application/json"
+						}
+					  }).then(res => res.json()).then(
+						a2data => {
+							var jsontmp;	
+							  var tmp = global.constants[1];
+							  for(var i = 0; i < a2data.length; i ++){
+								a2data[i]["key"] = 1;
+								jsontmp = {
+									key :0,
+									id: a2data[i].id,
+									Title: a2data[i].Title,
+									FirstName: a2data[i].FirstName,
+									LastName: a2data[i].LastName
+								}
+								tmp.push(jsontmp);
+							  }
+							  console.log(tmp);
+							  this.setState({sdataSource:tmp});
+						}
+					)
+				}
+			)
+			
+
+			
+		}
+
+	}
+
+	aHandleDelete(e){
+		// var id = e.target.id;
+
+		if(1){
+			var adata = {
+				table: "Advisor",
+				id : e.target.id
+			}
+			fetch(`/delete`, {
+				method: 'Post',
+				body: JSON.stringify(adata),
+				headers:{
+				  'Access-Control-Allow-Origin': '*',
+				  'Access-Control-Allow-Credentials':true,
+				  'Access-Control-Allow-Methods':'POST, GET',
+				  "Content-Type": "application/json"
+				}
+			  }).then(res => res.json()).then(
+				adata => {
+
+					console.log(adata);	
+					//re get the current database
+					global.constants[1] = [];
+					var a2data = {
+						table: "Advisor"
+					}
+					fetch(`/demonstrate`, {
+						method: 'Post',
+						body: JSON.stringify(a2data),
+						headers:{
+						  'Access-Control-Allow-Origin': '*',
+						  'Access-Control-Allow-Credentials':true,
+						  'Access-Control-Allow-Methods':'POST, GET',
+						  "Content-Type": "application/json"
+						}
+					  }).then(res => res.json()).then(
+						a2data => {
+							var jsontmp;	
+							  var tmp = global.constants[1];
+							  for(var i = 0; i < a2data.length; i ++){
+								a2data[i]["key"] = 1;
+								jsontmp = {
+									key :0,
+									id: a2data[i].id,
+									Title: a2data[i].Title,
+									FirstName: a2data[i].FirstName,
+									LastName: a2data[i].LastName
+								}
+								tmp.push(jsontmp);
+							  }
+							  console.log(tmp);
+							  this.setState({adataSource:tmp});
+						}
+					)
+				}
+			)
+			
+
+			
+		}
 
 	}
 

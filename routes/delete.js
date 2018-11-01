@@ -17,10 +17,10 @@ router.post('/', function(req, res, next) {
   var sql
   switch(req.body.table){
     case 'Advisor':
-      sql = "DELETE FROM Advisor" + "WHERE id = " + req.body.id;
+      sql = "DELETE FROM Advisor" + " WHERE id = " + req.body.id;
       break;
     case 'Student':
-      sql = "DELETE FROM Student" + "WHERE id = " + req.body.id;
+      sql = "DELETE FROM Student" + " WHERE id = " + req.body.id;
       break;
   }
 
