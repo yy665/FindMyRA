@@ -72,7 +72,7 @@ class App extends Component {
         <Route path = "/Edit" component = {UpdateComp}/>
         <Route path = "/FindPeople" component = {Query}/>
         <Route path = "/Delete" component = {DeleteComp}/>
-        <button onClick={this.demonstrate}>Demonstrate</button>
+        {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
       </div>
     );
   }

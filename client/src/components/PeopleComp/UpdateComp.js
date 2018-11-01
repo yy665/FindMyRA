@@ -45,8 +45,8 @@ class UpdateComp extends Component {
 				dataIndex:"Advisor",
 				key:"Advisor"},
 				{title:"Action",
-				dataIndex:"key",
-				key:"key",
+				dataIndex:"id",
+				key:"id",
 				render:(text,record,index)=>(<span>
 						<Button id={text} type = "primary" onClick = {this.handleStudentUpdate}> Update </Button>
 						<Divider type = "vertical"/>
@@ -73,8 +73,8 @@ class UpdateComp extends Component {
 				dataIndex:"Title",
 				key:"Title"},
 				{title:"Action",
-				dataIndex:"key",
-				key:"key",
+				dataIndex:"id",
+				key:"id",
 				render:(text,record)=>(<span>
 						<Button id={text} onClick = {this.handleAdvisorUpdate} type = "primary"> Update </Button>
 						<Divider type = "vertical"/>
@@ -268,6 +268,9 @@ class UpdateComp extends Component {
 		}
 		else{
 			var id = e.target.id;
+			for (var i = 0; i<this.state.sdataSource.length;i++){
+				if(this.state.sdataSource[i].id === id) id = i;
+			}
 			this.setState({sid:this.state.sdataSource[id].id});
 			this.setState({sfirstname:this.state.sdataSource[id].FirstName});
 			this.setState({slastname:this.state.sdataSource[id].LastName});
@@ -356,6 +359,9 @@ class UpdateComp extends Component {
 		}
 		else{
 			var id = e.target.id;
+			for (var i = 0; i<this.state.adataSource.length;i++){
+				if(this.state.adataSource[i].id === id) id = i;
+			}
 			this.setState({aid:this.state.adataSource[id].id});
 			this.setState({afirstname:this.state.adataSource[id].FirstName});
 			this.setState({alastname:this.state.adataSource[id].LastName});
@@ -432,9 +438,9 @@ class UpdateComp extends Component {
     return(
         <div>
           Choose a profile to update.
-		  <div>
+		  {/* <div>
 		  	<button onClick={this.demonstrate}>Demonstrate</button>
-		  </div>
+		  </div> */}
           <div>
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
           </div>
