@@ -8,6 +8,7 @@ import './Testdata.js'
 
 class UpdateComp extends Component {
 	constructor(props){
+		global.constants = [[],[]];
 		var data = global.constants[0];
 		super(props);
 		this.state = {
@@ -15,8 +16,8 @@ class UpdateComp extends Component {
 		//student display
 			scolumns: [{
 				title:"ID",
-				dataIndex: "Student_id",
-				key: "Student_id",
+				dataIndex: "id",
+				key: "id",
 				},
 				{title: "First Name",
 				dataIndex: "FirstName",
@@ -55,8 +56,8 @@ class UpdateComp extends Component {
 //Advisor display
 			acolumns:[{
 				title:"ID",
-				dataIndex: "Advisor_id",
-				key: "Advisor_id",
+				dataIndex: "id",
+				key: "id",
 				},
 				{title: "First Name",
 				dataIndex: "FirstName",
@@ -81,12 +82,12 @@ class UpdateComp extends Component {
 						</span>
 						)}],
 
-	//datasource
-	sdataSource: data,
-	adataSource: global.constants[1],
+				//datasource
+				sdataSource: data,
+				adataSource: global.constants[1],
 
-	//student info
-	sid : 0,
+				//student info
+				sid : 0,
                     sfirstname: null,
                     slastname: null,
                     sseeking: 1,
@@ -96,18 +97,84 @@ class UpdateComp extends Component {
                     group: null,
                     advisor: null,
                     
-
-
-
-	//advisor info
-	aid : 0,
+				//advisor info
+				aid : 0,
                     afirstname: null,
                     alastname: null,
                     aseeking: 1,
                     title: null,
 
-	fullsql: null
+				fullsql: null
 		};
+		//get student data from database
+		var sdata = {
+			table: "Student"
+		}
+		fetch(`/demonstrate`, {
+			method: 'Post',
+			body: JSON.stringify(sdata),
+			headers:{
+			  'Access-Control-Allow-Origin': '*',
+			  'Access-Control-Allow-Credentials':true,
+			  'Access-Control-Allow-Methods':'POST, GET',
+			  "Content-Type": "application/json"
+			}
+		  }).then(res => res.json()).then(
+			sdata => {
+				var jsontmp;	
+			  	var tmp = global.constants[0];
+			  	for(var i = 0; i < sdata.length; i ++){
+					sdata[i]["key"] = 0;
+					jsontmp = {
+						key :0,
+						Advisor: sdata[i].Advisor,
+						Degree: sdata[i].Degree,
+						GPA: sdata[i].GPA,
+						GroupPreference: sdata[i].GroupPreference,
+						SchoolYear: sdata[i].SchoolYear,
+						SeekingStatus: sdata[i].SeekingStatus,
+						id: sdata[i].id,
+						FirstName: sdata[i].FirstName,
+						LastName: sdata[i].LastName
+					}
+					tmp.push(jsontmp);
+			  	}
+			  	console.log(tmp);
+			  	this.setState({sdataSource:tmp});
+			}
+		)
+		//get Advisor info
+		var sdata = {
+			table: "Advisor"
+		}
+		fetch(`/demonstrate`, {
+			method: 'Post',
+			body: JSON.stringify(sdata),
+			headers:{
+			  'Access-Control-Allow-Origin': '*',
+			  'Access-Control-Allow-Credentials':true,
+			  'Access-Control-Allow-Methods':'POST, GET',
+			  "Content-Type": "application/json"
+			}
+		  }).then(res => res.json()).then(
+			adata => {
+				var jsontmp;	
+			  	var tmp = global.constants[1];
+			  	for(var i = 0; i < adata.length; i ++){
+					adata[i]["key"] = 1;
+					jsontmp = {
+						key :0,
+						id: adata[i].id,
+						Title: adata[i].Title,
+						FirstName: adata[i].FirstName,
+						LastName: adata[i].LastName
+					}
+					tmp.push(jsontmp);
+			  	}
+			  	console.log(tmp);
+			  	this.setState({adataSource:tmp});
+			}
+		)
 
 		this.handleSChange = this.handleSChange.bind(this);
 		this.handleAChange = this.handleAChange.bind(this);
@@ -128,12 +195,80 @@ class UpdateComp extends Component {
 			//send update query
 			if(e.target.id === "u1"){
 				var query = "FirstName="+this.state.sfirstname+ ",LastName=" + this.state.slastname +",SeekingStatus ="+this.state.sseeking+",Degree ="+this.state.degree+ ",GPA ="+this.state.gpa+ ",GroupPreference =" +this.state.group + ",Advisor=" + this.state.advisor +"\n";
-				this.setState({fullsql: "UPDATE Student SET "+query+ "WHERE Student_id = " + this.state.sid});
+				this.setState({fullsql: "UPDATE Student SET "+query+ "WHERE id = " + this.state.sid});
+
+				//change the status
+				var sdata = {
+					table: "Student",
+					id : this.state.sid,
+                	firstname: this.state.sfirstname,
+                	lastname: this.state.slastname,
+                	seeking: this.state.sseeking,
+					degree: this.state.degree,
+					gpa: this.state.gpa,
+					group:this.state.group,
+					advisor: this.state.advisor,
+
+				}
+				fetch(`/update`, {
+					method: 'Post',
+					body: JSON.stringify(sdata),
+					headers:{
+					  'Access-Control-Allow-Origin': '*',
+					  'Access-Control-Allow-Credentials':true,
+					  'Access-Control-Allow-Methods':'POST, GET',
+					  "Content-Type": "application/json"
+					}
+				  }).then(res => res.json()).then(
+					sdata => {
+
+						console.log(sdata);	
+						//re get the current database
+						global.constants[1] = [];
+						var s2data = {
+							table: "Student"
+						}
+						fetch(`/demonstrate`, {
+							method: 'Post',
+							body: JSON.stringify(s2data),
+							headers:{
+							  'Access-Control-Allow-Origin': '*',
+							  'Access-Control-Allow-Credentials':true,
+							  'Access-Control-Allow-Methods':'POST, GET',
+							  "Content-Type": "application/json"
+							}
+						  }).then(res => res.json()).then(
+							s2data => {
+								var jsontmp;	
+								  var tmp = global.constants[1];
+								  for(var i = 0; i < s2data.length; i ++){
+									s2data[i]["key"] = 0;
+									jsontmp = {
+										key :0,
+										Advisor: s2data[i].Advisor,
+										Degree: s2data[i].Degree,
+										GPA: s2data[i].GPA,
+										GroupPreference: s2data[i].GroupPreference,
+										SchoolYear: s2data[i].SchoolYear,
+										SeekingStatus: s2data[i].SeekingStatus,
+										id: s2data[i].id,
+										FirstName: s2data[i].FirstName,
+										LastName: s2data[i].LastName
+									}
+									tmp.push(jsontmp);
+								  }
+								  console.log(tmp);
+								  this.setState({sdataSource:tmp});
+							}
+						)
+					}
+				)
+
 			}
 		}
 		else{
 			var id = e.target.id;
-			this.setState({sid:this.state.sdataSource[id].Student_id});
+			this.setState({sid:this.state.sdataSource[id].id});
 			this.setState({sfirstname:this.state.sdataSource[id].FirstName});
 			this.setState({slastname:this.state.sdataSource[id].LastName});
 			this.setState({sseeking:this.state.sdataSource[id].SeekingStatus});
@@ -157,13 +292,71 @@ class UpdateComp extends Component {
 			//send update query
 			if(e.target.id === "u2"){
 				var query = "FirstName="+this.state.afirstname+ ",LastName=" + this.state.alastname +",SeekingStatus ="+this.state.aseeking+",Title ="+this.state.title+"\n";
-				this.setState({fullsql: "UPDATE Advisor SET "+query+ "WHERE Advisor_id = " + this.state.aid});
+				this.setState({fullsql: "UPDATE Advisor SET "+query+ "WHERE id = " + this.state.aid});
+				var adata = {
+					table: "Advisor",
+					id : this.state.aid,
+                	firstname: this.state.afirstname,
+                	lastname: this.state.alastname,
+                	seeking: this.state.aseeking,
+                	title: this.state.title
+				}
+				fetch(`/update`, {
+					method: 'Post',
+					body: JSON.stringify(adata),
+					headers:{
+					  'Access-Control-Allow-Origin': '*',
+					  'Access-Control-Allow-Credentials':true,
+					  'Access-Control-Allow-Methods':'POST, GET',
+					  "Content-Type": "application/json"
+					}
+				  }).then(res => res.json()).then(
+					adata => {
+
+						console.log(adata);	
+						//re get the current database
+						global.constants[1] = [];
+						var a2data = {
+							table: "Advisor"
+						}
+						fetch(`/demonstrate`, {
+							method: 'Post',
+							body: JSON.stringify(a2data),
+							headers:{
+							  'Access-Control-Allow-Origin': '*',
+							  'Access-Control-Allow-Credentials':true,
+							  'Access-Control-Allow-Methods':'POST, GET',
+							  "Content-Type": "application/json"
+							}
+						  }).then(res => res.json()).then(
+							a2data => {
+								var jsontmp;	
+								  var tmp = global.constants[1];
+								  for(var i = 0; i < a2data.length; i ++){
+									a2data[i]["key"] = 1;
+									jsontmp = {
+										key :0,
+										id: a2data[i].id,
+										Title: a2data[i].Title,
+										FirstName: a2data[i].FirstName,
+										LastName: a2data[i].LastName
+									}
+									tmp.push(jsontmp);
+								  }
+								  console.log(tmp);
+								  this.setState({adataSource:tmp});
+							}
+						)
+					}
+				)
+				
+
 				
 			}
 		}
 		else{
 			var id = e.target.id;
-			this.setState({aid:this.state.adataSource[id].Advisor_id});
+			this.setState({aid:this.state.adataSource[id].id});
 			this.setState({afirstname:this.state.adataSource[id].FirstName});
 			this.setState({alastname:this.state.adataSource[id].LastName});
 			this.setState({aseeking:this.state.adataSource[id].SeekingStatus});
@@ -229,6 +422,7 @@ class UpdateComp extends Component {
 		}).then(res => res.json()).then(
 		  data => {
 			console.log(data)
+			return data
 		  }
 		)
 		
