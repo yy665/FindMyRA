@@ -14,17 +14,29 @@ import Query from './components/PeopleComp/Query.js';
 class App extends Component {
 
   async demonstrate(){
-    // let data = {name: "dong",
-    // state: "test"};
-    // console.log(data);
-    // let res = await axios.post(`${server}/insert`, qs.stringify(data));
-    // let res = await axios.post(`/insert`, qs.stringify(data));
+    // fetch(`/demonstrate`, {
+    //   method: 'Get',
+    //   headers:{
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Credentials':true,
+    //     'Access-Control-Allow-Methods':'POST, GET'
+    //   }
+    // }).then(res => res.json()).then(
+    //   data => {
+    //     console.log(data)
+    //   }
+    // )
+    var data = {
+      table: "Student"
+    }
     fetch(`/demonstrate`, {
-      method: 'Get',
+      method: 'Post',
+      body: JSON.stringify(data),
       headers:{
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials':true,
-        'Access-Control-Allow-Methods':'POST, GET'
+        'Access-Control-Allow-Methods':'POST, GET',
+        "Content-Type": "application/json"
       }
     }).then(res => res.json()).then(
       data => {

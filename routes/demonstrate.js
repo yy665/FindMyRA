@@ -9,11 +9,12 @@ var connection = mysql.createConnection({
   database: 'test'
 })
 
+connection.connect();
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  // res.send('respond with a resource');
-  connection.connect();
-  connection.query('SELECT * FROM Student', function(error, results, fields){
+router.post('/', function(req, res, next) {
+  var sql = 'SELECT * FROM ' + req.body.table;
+  connection.query(sql, function(error, results, fields){
     if (error) throw error;
     else{
       res.json(results);

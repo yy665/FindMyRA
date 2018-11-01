@@ -14,72 +14,72 @@ class UpdateComp extends Component {
 
 		//student display
 			scolumns: [{
-	title:"ID",
-	dataIndex: "Student_id",
-	key: "Student_id",
-	},
-	{title: "First Name",
-	dataIndex: "FirstName",
-	key: "FirstName"},
-	{title:"Last Name",
-	dataIndex:"LastName",
-	key: "LastName"},
-	{title:"Pursuing Degree",
-	dataIndex:"Degree",
-	key:"Degree"},
-	{title:"School Year",
-	dataIndex:"SchoolYear",
-	key:"SchoolYear"},
-	{title:"GPA",
-	dataIndex:"GPA",
-	key:"GPA"},
-	{title:"Seeking Group",
-	dataIndex:"SeekingStatus",
-	key:"SeekingStatus",
-	render:status=>(status===1?("Yes"):("No"))},
-	{title:"Group Preference",
-	dataIndex:"GroupPreference",
-	key:"GroupPreference"},
-	{title:"Advisor",
-	dataIndex:"Advisor",
-	key:"Advisor"},
-	{title:"Action",
-	dataIndex:"key",
-	key:"key",
-	render:(text,record,index)=>(<span>
-			<Button id={text} type = "primary" onClick = {this.handleStudentUpdate}> Update </Button>
-			<Divider type = "vertical"/>
-			<Button id={text} type = "danger" onClick = {this.handleDelete}> Delete </Button>
-			</span>
-			)}],
+				title:"ID",
+				dataIndex: "Student_id",
+				key: "Student_id",
+				},
+				{title: "First Name",
+				dataIndex: "FirstName",
+				key: "FirstName"},
+				{title:"Last Name",
+				dataIndex:"LastName",
+				key: "LastName"},
+				{title:"Pursuing Degree",
+				dataIndex:"Degree",
+				key:"Degree"},
+				{title:"School Year",
+				dataIndex:"SchoolYear",
+				key:"SchoolYear"},
+				{title:"GPA",
+				dataIndex:"GPA",
+				key:"GPA"},
+				{title:"Seeking Group",
+				dataIndex:"SeekingStatus",
+				key:"SeekingStatus",
+				render:status=>(status===1?("Yes"):("No"))},
+				{title:"Group Preference",
+				dataIndex:"GroupPreference",
+				key:"GroupPreference"},
+				{title:"Advisor",
+				dataIndex:"Advisor",
+				key:"Advisor"},
+				{title:"Action",
+				dataIndex:"key",
+				key:"key",
+				render:(text,record,index)=>(<span>
+						<Button id={text} type = "primary" onClick = {this.handleStudentUpdate}> Update </Button>
+						<Divider type = "vertical"/>
+						<Button id={text} type = "danger" onClick = {this.handleDelete}> Delete </Button>
+						</span>
+						)}],
 //Advisor display
-acolumns:[{
-	title:"ID",
-	dataIndex: "Advisor_id",
-	key: "Advisor_id",
-	},
-	{title: "First Name",
-	dataIndex: "FirstName",
-	key: "FirstName"},
-	{title:"Last Name",
-	dataIndex:"LastName",
-	key: "LastName"},
-	{title:"Seeking Students",
-	dataIndex:"SeekingStatus",
-	key:"SeekingStatus",
-	render:status=>(status===1?("Yes"):("No"))},
-	{title:"Title",
-	dataIndex:"Title",
-	key:"Title"},
-	{title:"Action",
-	dataIndex:"key",
-	key:"key",
-	render:(text,record)=>(<span>
-			<Button id={text} onClick = {this.handleAdvisorUpdate} type = "primary"> Update </Button>
-			<Divider type = "vertical"/>
-			<Button id={text} onClick = {this.handleDelete} type = "danger"> Delete </Button>
-			</span>
-			)}],
+			acolumns:[{
+				title:"ID",
+				dataIndex: "Advisor_id",
+				key: "Advisor_id",
+				},
+				{title: "First Name",
+				dataIndex: "FirstName",
+				key: "FirstName"},
+				{title:"Last Name",
+				dataIndex:"LastName",
+				key: "LastName"},
+				{title:"Seeking Students",
+				dataIndex:"SeekingStatus",
+				key:"SeekingStatus",
+				render:status=>(status===1?("Yes"):("No"))},
+				{title:"Title",
+				dataIndex:"Title",
+				key:"Title"},
+				{title:"Action",
+				dataIndex:"key",
+				key:"key",
+				render:(text,record)=>(<span>
+						<Button id={text} onClick = {this.handleAdvisorUpdate} type = "primary"> Update </Button>
+						<Divider type = "vertical"/>
+						<Button id={text} onClick = {this.handleDelete} type = "danger"> Delete </Button>
+						</span>
+						)}],
 
 	//datasource
 	sdataSource: data,
@@ -213,10 +213,34 @@ acolumns:[{
 
 	}
 
+	async demonstrate(){
+		var data = {
+		  table: "Student"
+		}
+		fetch(`/demonstrate`, {
+		  method: 'Post',
+		  body: JSON.stringify(data),
+		  headers:{
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Credentials':true,
+			'Access-Control-Allow-Methods':'POST, GET',
+			"Content-Type": "application/json"
+		  }
+		}).then(res => res.json()).then(
+		  data => {
+			console.log(data)
+		  }
+		)
+		
+	  }
+
     render(){
     return(
         <div>
           Choose a profile to update.
+		  <div>
+		  	<button onClick={this.demonstrate}>Demonstrate</button>
+		  </div>
           <div>
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
           </div>

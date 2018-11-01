@@ -27,13 +27,19 @@ class peopleComp extends Component {
             this.state.group+","+this.state.advisor+")"});
 
             // send to the backend
-            var sqlsentence = "INSERT INTO Student"+this.state.sql+
-            "VALUES ("+this.state.id+","+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
-            this.state.group+","+this.state.advisor+")";
-            console.log(sqlsentence);
-            var data = {"Operation" : "insert",
-                        "Entity": "Student",
-                        "SQL": sqlsentence}
+            var data = {
+                table: "Student",
+                id : this.state.id,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                seeking: this.state.seeking,
+                degree: this.state.degree,
+                year: this.state.year,
+                gpa: this.state.gpa,
+                group: this.state.group,
+                advisor: this.state.advisor
+            }
+
             fetch(`/insert`, {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -52,13 +58,14 @@ class peopleComp extends Component {
             this.setState({fullsql: "INSERT INTO Advisor" + this.state.sql+
             " VALUES ("+this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
 
-            // send to the backend
-            var sqlsentence = "INSERT INTO Advisor" + this.state.sql+
-            " VALUES (" + this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")";
-            console.log(sqlsentence);
-            var data = {"Operation" : "insert",
-                        "Entity": "Advisor",
-                        "SQL": sqlsentence}
+            data = {
+                table: "Advisor",
+                id : this.state.id,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                seeking: this.state.seeking,
+                title: this.state.title
+            }
             fetch(`/insert`, {
                 method: 'POST',
                 body: JSON.stringify(data),

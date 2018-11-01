@@ -31,7 +31,7 @@ ResearchArea = """CREATE TABLE ResearchArea(
 );"""
 
 Advisor = """CREATE TABLE Advisor(
-    Advisor_id CHAR(10) PRIMARY KEY,
+    id CHAR(10) PRIMARY KEY,
     FirstName CHAR(20),
     LastName CHAR(20),
     SeekingStatus INT,
@@ -39,16 +39,16 @@ Advisor = """CREATE TABLE Advisor(
 );"""
 
 Student = """CREATE TABLE Student(
-    Student_id CHAR(10) PRIMARY KEY,
+    id CHAR(10) PRIMARY KEY,
     FirstName CHAR(20),
     LastName CHAR(20),
     SeekingStatus INT,
-    Degree CHAR(10),
+    Degree CHAR(15),
     SchoolYear CHAR(10),
     GPA FLOAT,
     GropuPreference CHAR(20),
     Advisor CHAR(10),
-    FOREIGN KEY (Advisor) REFERENCES Advisor (Advisor_id)
+    FOREIGN KEY (Advisor) REFERENCES Advisor (id)
 );"""
 
 Contributor = """CREATE TABLE Contributor(

@@ -9,12 +9,21 @@ var connection = mysql.createConnection({
   database: 'test'
 })
 
+connection.connect();
+
 /* GET users listing. */
 router.post('/', function(req, res, next) {
   // res.send('respond with a resource');
-  var sql = req.body.SQL;
-  console.log(req.body);
-  connection.connect();
+  var sql
+  switch(req.body.table){
+    case 'Advisor':
+      sql = "DELETE FROM Advisor" + "WHERE id = " + req.body.id;
+      break;
+    case 'Student':
+      sql = "DELETE FROM Student" + "WHERE id = " + req.body.id;
+      break;
+  }
+
   connection.query(sql , function(error, results, fields){
     if (error){
       console.log(error);
