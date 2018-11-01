@@ -20,12 +20,12 @@ class peopleComp extends Component {
     }
     handleClick(e){
         if(e.target.id === "s"){
-            this.setState({fullsql: "INSERT Student"+this.state.sql+
+            this.setState({fullsql: "INSERT INTO Student"+this.state.sql+
             "VALUES ("+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
             this.state.group+","+this.state.advisor+")"});
 
             // send to the backend
-            var sqlsentence = "INSERT Student"+this.state.sql+
+            var sqlsentence = "INSERT INTO Student"+this.state.sql+
             "VALUES ("+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
             this.state.group+","+this.state.advisor+")";
             console.log(sqlsentence);
@@ -46,12 +46,12 @@ class peopleComp extends Component {
               .catch(error=> console.log('Error:', error));
         }
         else{
-            this.setState({fullsql: "INSERT Advisor" + this.state.sql+
-            " VALUES (" +this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
+            this.setState({fullsql: "INSERT INTO Advisor" + this.state.sql+
+            " VALUES (" + "1234567890," + this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
 
             // send to the backend
-            var sqlsentence = "INSERT Advisor" + this.state.sql+
-            " VALUES (" +this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")";
+            var sqlsentence = "INSERT INTO Advisor" + this.state.sql+
+            " VALUES (" + "2345678901," + this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")";
             console.log(sqlsentence);
             var data = {"Operation" : "insert",
                         "Entity": "Advisor",
