@@ -209,6 +209,12 @@ class UpdateComp extends Component {
 			Layer4.style.visibility = "visible";
 			button.style.visibility = "hidden";
 		}
+		//canceled
+		else if(e.target.id === "q2c"){
+			Layer4.style.visibility = "hidden";
+			button.style.visibility = "visible";
+		}
+		//submit search
 		else if(e.target.id === "q2"){
 			Layer4.style.visibility = "hidden";
 			button.style.visibility = "visible";
@@ -268,6 +274,7 @@ class UpdateComp extends Component {
 
 			
 		}
+		//entries for search
 		else{
 			if(e.target.name === "idquery")this.setState({qaid:e.target.value});
         	else if(e.target.name === "lnquery")this.setState({qalastname:e.target.value});
@@ -284,6 +291,12 @@ class UpdateComp extends Component {
 			Layer3.style.visibility = "visible";
 			button.style.visibility = "hidden";
 		}
+		//canceled
+		else if(e.target.id === "q1c"){
+			Layer3.style.visibility = "hidden";
+			button.style.visibility = "visible";
+		}
+		//submit search
 		else if(e.target.id === "q1"){
 			Layer3.style.visibility = "hidden";
 			button.style.visibility = "visible";
@@ -349,6 +362,7 @@ class UpdateComp extends Component {
 			)		
 
 		}
+		//entries for search
 		else{
 			if(e.target.name === "idquery")this.setState({qsid:e.target.value});
         	else if(e.target.name === "lnquery")this.setState({qslastname:e.target.value});
@@ -757,7 +771,8 @@ class UpdateComp extends Component {
             <input type = "text" name = "lnquery" onChange = {this.handleSQuery}></input>
             </div>
             <div>
-            <Button id = "q1" type = "default" onClick = {this.handleSQuery}>Search</Button>
+            <Button id = "q1" type = "default" size = "small" onClick = {this.handleSQuery}>Search</Button>
+            <Button id = "q1c" type = "dashed" size = "small" onClick = {this.handleSQuery}>Cancel</Button>
             </div>
             </div> <br></br>
 
@@ -773,7 +788,7 @@ class UpdateComp extends Component {
                 <input type="text" name="firstname" onChange={this.handleSChange} defaultValue={this.state.sfirstname}></input>
                 
                 Last name:
-                <input type="text" name="lastname" defaultValue={this.state.slastname} onChange={this.handleShange}></input>
+                <input type="text" name="lastname" defaultValue={this.state.slastname} onChange={this.handleShange}></input> <text style={{color:"red"}}>(*required)</text>
             </div>
 
             <div>
@@ -816,7 +831,7 @@ class UpdateComp extends Component {
 
             <div>
                 Who is your advisor?
-                <input type="text" name="advisor" defaultValue={this.state.advisor} onChange={this.handleSChange}></input>
+                <input type="text" name="advisor" defaultValue={this.state.advisor} onChange={this.handleSChange}></input> <text style={{color:"red"}}>(*required)</text>
             </div>
 
             
@@ -843,7 +858,8 @@ class UpdateComp extends Component {
             <input type = "text" name = "lnquery" onChange = {this.handleAQuery}></input>
             </div>
             <div>
-            <Button id = "q2" type = "default" onClick = {this.handleAQuery}>Search</Button>
+            <Button id = "q2" type = "default" size = "small" onClick = {this.handleAQuery}>Search</Button>
+            <Button id = "q2c" type = "dashed" size = "small" onClick = {this.handleAQuery}>Cancel</Button>
             </div>
             </div> <br></br>
 
@@ -868,13 +884,14 @@ class UpdateComp extends Component {
             <select name = "seek2" id = "seek2" onChange={this.handleAChange}>
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
-            </select>
+            </select> <text style={{color:"red"}}>(*required)</text>
             </div>
 
             <div> 
             What is your title?
-            <input type="text" name="title" defaultValue={this.state.title} onChange={this.handleAChange}></input>
+            <input type="text" name="title" defaultValue={this.state.title} onChange={this.handleAChange}></input> <text style={{color:"red"}}>(*required)</text>
             </div>
+            
 
             
 

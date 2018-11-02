@@ -13,7 +13,7 @@ class peopleComp extends Component {
                     gpa: 4.0,
                     group: null,
                     advisor: null,
-                    title: null,
+                    title: "Professor",
                     sql:null,
                     fullsql: null};
         this.handleChange = this.handleChange.bind(this);
@@ -153,10 +153,10 @@ class peopleComp extends Component {
         <div id = "Layer1" style = {{visibility: "hidden"}}>
             <div>
             First name:
-                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input>
+                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}>(*required)</text>
                 
                 Last name:
-                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input>
+                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input> <text style={{color:"red"}}>(*required)</text>
             </div>
 
             <div>
@@ -199,7 +199,7 @@ class peopleComp extends Component {
 
             <div>
                 Who is your advisor?
-                <input type="text" name="advisor" defaultValue="Professor" onChange={this.handleChange}></input>
+                <input type="text" name="advisor" onChange={this.handleChange}></input> <text style={{color:"red"}}>(*required. Please input your advisor's id.)</text>
             </div>
 
             
@@ -226,10 +226,10 @@ class peopleComp extends Component {
             <div id = "Layer2" style = {{top: "100px", visibility: "hidden"}}>
             <div>
             First name:
-                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input>
+                <input type="text" name="firstname" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}>(*required)</text>
                 
                 Last name:
-                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input>
+                <input type="text" name="lastname" defaultValue="" onChange={this.handleChange}></input> <text style={{color:"red"}}>(*required)</text>
             </div>
 
             <div>
