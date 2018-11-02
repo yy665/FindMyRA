@@ -109,11 +109,11 @@ class UpdateComp extends Component {
 
 
 				//query info
-				qsid: 0,
+				qsid: null,
 				qsfirstname: null,
 				qslastname: null,
 
-				qaid: 0,
+				qaid: null,
 				qafirstname: null,
 				qalastname: null,
 
@@ -223,6 +223,47 @@ class UpdateComp extends Component {
 			}
 
 			this.setState({fullsql:"SELECT * FROM Advisor WHERE " + query});
+
+			var adata = {
+				table: "Advisor",
+				id : this.state.qaid,
+				firstname: this.state.qafirstname,
+				lastname: this.state.qalastname
+			}
+			fetch(`/query`, {
+				method: 'Post',
+				body: JSON.stringify(adata),
+				headers:{
+				  'Access-Control-Allow-Origin': '*',
+				  'Access-Control-Allow-Credentials':true,
+				  'Access-Control-Allow-Methods':'POST, GET',
+				  "Content-Type": "application/json"
+				}
+			  }).then(res => res.json()).then(
+				adata => {
+					var jsontmp;
+					// console.log(adata);	
+
+					//get the data
+					var tmp = [];
+					for(var i = 0; i < adata.length; i ++){
+						adata[i]["key"] = 1;
+					  	jsontmp = {
+						  key :0,
+						  id: adata[i].id,
+						  Title: adata[i].Title,
+						  FirstName: adata[i].FirstName,
+						  LastName: adata[i].LastName,
+						  SeekingStatus: adata[i].SeekingStatus
+					  }
+					  tmp.push(jsontmp);
+					}
+					console.log(adata);
+					this.setState({adataSource:tmp});
+				}
+			)
+
+			
 		}
 		else{
 			if(e.target.name === "idquery")this.setState({qaid:e.target.value});
@@ -253,6 +294,53 @@ class UpdateComp extends Component {
 			}
 
 			this.setState({fullsql:"SELECT * FROM Student WHERE " + query});
+
+			var sdata = {
+				table: "Student",
+				id : this.state.qsid,
+				firstname: this.state.qsfirstname,
+				lastname: this.state.qslastname
+
+			}
+			fetch(`/query`, {
+				method: 'Post',
+				body: JSON.stringify(sdata),
+				headers:{
+				  'Access-Control-Allow-Origin': '*',
+				  'Access-Control-Allow-Credentials':true,
+				  'Access-Control-Allow-Methods':'POST, GET',
+				  "Content-Type": "application/json"
+				}
+			  }).then(res => res.json()).then(
+				sdata => {
+
+					console.log(sdata);	
+					var jsontmp;
+					// console.log(adata);	
+
+					//get the data
+					var tmp = [];
+					for(var i = 0; i < sdata.length; i ++){
+						sdata[i]["key"] = 1;
+					  	jsontmp = {
+							key :0,
+							Advisor: sdata[i].Advisor,
+							Degree: sdata[i].Degree,
+							GPA: sdata[i].GPA,
+							GroupPreference: sdata[i].GroupPreference,
+							SchoolYear: sdata[i].SchoolYear,
+							SeekingStatus: sdata[i].SeekingStatus,
+							id: sdata[i].id,
+							FirstName: sdata[i].FirstName,
+							LastName: sdata[i].LastName
+					  }
+					  tmp.push(jsontmp);
+					}
+					console.log(sdata);
+					this.setState({sdataSource:tmp});
+					//re get the current database
+				}
+			)		
 
 		}
 		else{

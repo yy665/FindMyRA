@@ -29,7 +29,7 @@ class peopleComp extends Component {
             // send to the backend
             var data = {
                 table: "Student",
-                id : this.state.id,
+                id : Math.floor(Math.random()*10000),
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 seeking: this.state.seeking,
@@ -54,7 +54,7 @@ class peopleComp extends Component {
               .catch(error=> console.log('Error:', error));
         }
         else{
-            this.setState({id: Math.floor(Math.random()*10000)});
+            this.setState({id: Math.floor(Math.random()*10000) + Math.random()*10000});
             this.setState({fullsql: "INSERT INTO Advisor" + this.state.sql+
             " VALUES ("+this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
 
