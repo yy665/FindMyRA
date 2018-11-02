@@ -204,11 +204,14 @@ class UpdateComp extends Component {
 
 	handleAQuery(e){
 		var Layer4 = document.getElementById('AQuery');
+		var button = document.getElementById('AQueryButton');
 		if (e.target.id === "AQueryButton"){
 			Layer4.style.visibility = "visible";
+			button.style.visibility = "hidden";
 		}
 		else if(e.target.id === "q2"){
 			Layer4.style.visibility = "hidden";
+			button.style.visibility = "visible";
 
 			var query = "";
 			if(this.state.qaid!=null)query+= "Advisor_id = " + this.state.qaid;
@@ -276,11 +279,14 @@ class UpdateComp extends Component {
 	}
 	handleSQuery(e){
 		var Layer3 = document.getElementById('SQuery');
+		var button = document.getElementById('SQueryButton');
 		if (e.target.id === "SQueryButton"){
 			Layer3.style.visibility = "visible";
+			button.style.visibility = "hidden";
 		}
 		else if(e.target.id === "q1"){
 			Layer3.style.visibility = "hidden";
+			button.style.visibility = "visible";
 			var query = "";
 			if(this.state.qsid!=null)query+= "Student_id = " + this.state.qsid;
 			if(this.state.qslastname!=null){
@@ -737,7 +743,7 @@ class UpdateComp extends Component {
 		  {/* <div>
 		  	<button onClick={this.demonstrate}>Demonstrate</button>
 		  </div> */}
-		  <Button id = "SQueryButton" type ="primary" onClick = {this.handleSQuery}> Search </Button>
+		  <Button id = "SQueryButton" type ="primary" style= {{visibility:"visible"}} onClick = {this.handleSQuery}> Search </Button>
 
 
 		  <div id = "SQuery" style = {{visibility:"hidden"}}>
@@ -842,7 +848,7 @@ class UpdateComp extends Component {
             </div> <br></br>
 
             <div style = {{position:"relative",left:"10px"}}>
-           <Button id = "AQueryButton" type ="primary" onClick = {this.handleAQuery}> Search </Button>
+           <Button id = "AQueryButton" type ="primary" style={{visibility:"visible"}} onClick = {this.handleAQuery}> Search </Button>
            </div>
           <div>
           <Table columns = {this.state.acolumns} dataSource = {this.state.adataSource} />

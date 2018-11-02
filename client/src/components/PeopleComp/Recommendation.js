@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Query = (prop) => {
+const Recommend = (prop) => {
     return(
         <div>
           Enter your preferences:
@@ -17,4 +17,4 @@ const Query = (prop) => {
     )
 } 
 
-export default Query;
+export default Recommend;

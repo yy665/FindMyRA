@@ -19,6 +19,9 @@ class peopleComp extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
+
+
+    //handle submit form
     handleClick(e){
         if(e.target.id === "s"){
             this.setState({id:Math.floor(Math.random()*10000)});
@@ -82,6 +85,7 @@ class peopleComp extends Component {
         
     }
 
+    //handle changes in the form
     handleChange(e){
         if(e.target.name === "identity")this.ChooseInput();
         else if(e.target.name === "firstname")this.setState({firstname:e.target.value});
@@ -105,6 +109,9 @@ class peopleComp extends Component {
         else if(e.target.name === "advisor")this.setState({advisor:e.target.value});
         else if(e.target.name === "title")this.setState({title:e.target.value});
     }
+
+
+    //Render the form according to user's choice
     ChooseInput(){
         var obj = document.getElementById('researcher');
         var Layer1 = document.getElementById('Layer1');
@@ -123,6 +130,10 @@ class peopleComp extends Component {
             this.setState({identity:val});
             this.setState({sql:"(id,FirstName,LastName,SeekingStatus,Title)"})
         }
+        else{
+            Layer1.style.visibility = "hidden";
+            Layer2.style.visibility = "hidden";
+        }
 
     }
 
@@ -134,6 +145,7 @@ class peopleComp extends Component {
             <div>
                 Are you a student or a professor?
             <select name = "identity" id = "researcher" onChange={this.handleChange}>
+                <option value="choose">==Choose==</option>
                 <option value="Student">Student</option>
                 <option value="Professor">Professor</option>
             </select>
