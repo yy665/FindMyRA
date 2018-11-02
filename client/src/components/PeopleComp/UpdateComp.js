@@ -343,7 +343,8 @@ class UpdateComp extends Component {
 										id: a2data[i].id,
 										Title: a2data[i].Title,
 										FirstName: a2data[i].FirstName,
-										LastName: a2data[i].LastName
+										LastName: a2data[i].LastName,
+										SeekingStatus: a2data[i].SeekingStatus
 									}
 									tmp.push(jsontmp);
 								  }
