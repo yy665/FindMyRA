@@ -104,7 +104,20 @@ class UpdateComp extends Component {
                     aseeking: 1,
                     title: null,
 
-				fullsql: null
+				fullsql: null,
+
+
+
+				//query info
+				qsid: 0,
+				qsfirstname: null,
+				qslastname: null,
+
+				qaid: 0,
+				qafirstname: null,
+				qalastname: null,
+
+
 		};
 		//get student data from database
 		var sdata = {
@@ -183,8 +196,79 @@ class UpdateComp extends Component {
 		this.aHandleDelete = this.aHandleDelete.bind(this);
         this.handleAdvisorUpdate = this.handleAdvisorUpdate.bind(this);
 
+        this.handleSQuery = this.handleSQuery.bind(this);
+        this.handleAQuery = this.handleAQuery.bind(this);
+
 
 	}
+
+	handleAQuery(e){
+		var Layer4 = document.getElementById('AQuery');
+		if (e.target.id === "AQueryButton"){
+			Layer4.style.visibility = "visible";
+		}
+		else if(e.target.id === "q2"){
+			Layer4.style.visibility = "hidden";
+
+			var query = "";
+			if(this.state.qaid!=null)query+= "Advisor_id = " + this.state.qaid;
+			if(this.state.qalastname!=null){
+				if(this.state.qaid!=null)query+=" AND ";
+
+				query+= "LastName = " + this.state.qalastname;
+			}
+			if(this.state.qafirstname!=null){
+				if(this.state.qaid!=null || this.state.qalastname!=null)query+=" AND ";
+				query+= "FirstName = " + this.state.qafirstname;
+			}
+
+			this.setState({fullsql:"SELECT * FROM Advisor WHERE " + query});
+		}
+		else{
+			if(e.target.name === "idquery")this.setState({qaid:e.target.value});
+        	else if(e.target.name === "lnquery")this.setState({qalastname:e.target.value});
+        	else if(e.target.name === "fnquery")this.setState({qafirstname:e.target.value});
+			
+
+
+		}
+	}
+	handleSQuery(e){
+		var Layer3 = document.getElementById('SQuery');
+		if (e.target.id === "SQueryButton"){
+			Layer3.style.visibility = "visible";
+		}
+		else if(e.target.id === "q1"){
+			Layer3.style.visibility = "hidden";
+			var query = "";
+			if(this.state.qsid!=null)query+= "Student_id = " + this.state.qsid;
+			if(this.state.qslastname!=null){
+				if(this.state.qsid!=null)query+=" AND ";
+
+				query+= "LastName = " + this.state.qslastname;
+			}
+			if(this.state.qsfirstname!=null){
+				if(this.state.qsid!=null || this.state.qslastname!=null)query+=" AND ";
+				query+= "FirstName = " + this.state.qsfirstname;
+			}
+
+			this.setState({fullsql:"SELECT * FROM Student WHERE " + query});
+
+		}
+		else{
+			if(e.target.name === "idquery")this.setState({qsid:e.target.value});
+        	else if(e.target.name === "lnquery")this.setState({qslastname:e.target.value});
+        	else if(e.target.name === "fnquery")this.setState({qsfirstname:e.target.value});
+			
+
+		}
+
+	}
+
+
+
+
+
 	handleStudentUpdate(e){
 		var Layer1 = document.getElementById('Layer1');
 		var Layer2 = document.getElementById('Layer2');
@@ -565,6 +649,26 @@ class UpdateComp extends Component {
 		  {/* <div>
 		  	<button onClick={this.demonstrate}>Demonstrate</button>
 		  </div> */}
+		  <Button id = "SQueryButton" type ="primary" onClick = {this.handleSQuery}> Search </Button>
+
+
+		  <div id = "SQuery" style = {{visibility:"hidden"}}>
+            <div> Search By ID:
+            <input type = "text" name = "idquery" onChange = {this.handleSQuery}></input>
+            </div>
+            <div> Search By First Name:
+            <input type = "text" name = "fnquery" onChange = {this.handleSQuery}></input>
+            </div>
+            <div> Search By Last Name:
+            <input type = "text" name = "lnquery" onChange = {this.handleSQuery}></input>
+            </div>
+            <div>
+            <Button id = "q1" type = "default" onClick = {this.handleSQuery}>Search</Button>
+            </div>
+            </div> <br></br>
+
+
+
           <div>
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
           </div>
@@ -630,6 +734,28 @@ class UpdateComp extends Component {
             </div>
 
 
+            
+
+           
+
+		  <div id = "AQuery" style = {{visibility:"hidden"}}>
+            <div> Search By ID:
+            <input type = "text" name = "idquery" onChange = {this.handleAQuery}></input>
+            </div>
+            <div> Search By First Name:
+            <input type = "text" name = "fnquery" onChange = {this.handleAQuery}></input>
+            </div>
+            <div> Search By Last Name:
+            <input type = "text" name = "lnquery" onChange = {this.handleAQuery}></input>
+            </div>
+            <div>
+            <Button id = "q2" type = "default" onClick = {this.handleAQuery}>Search</Button>
+            </div>
+            </div> <br></br>
+
+            <div style = {{position:"relative",left:"10px"}}>
+           <Button id = "AQueryButton" type ="primary" onClick = {this.handleAQuery}> Search </Button>
+           </div>
           <div>
           <Table columns = {this.state.acolumns} dataSource = {this.state.adataSource} />
           </div>
