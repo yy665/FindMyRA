@@ -624,7 +624,7 @@ class UpdateComp extends Component {
 
 					console.log(adata);	
 					//re get the current database
-					global.constants[1] = [];
+					global.constants[0] = [];
 					var a2data = {
 						table: "Student"
 					}
@@ -640,13 +640,19 @@ class UpdateComp extends Component {
 					  }).then(res => res.json()).then(
 						a2data => {
 							var jsontmp;	
-							  var tmp = global.constants[1];
+							  var tmp = global.constants[0];
 							  for(var i = 0; i < a2data.length; i ++){
 								a2data[i]["key"] = 1;
 								jsontmp = {
 									key :0,
+									
+									Advisor: a2data[i].Advisor,
+									Degree: a2data[i].Degree,
+									GPA: a2data[i].GPA,
+									GroupPreference: a2data[i].GroupPreference,
+									SchoolYear: a2data[i].SchoolYear,
+									SeekingStatus: a2data[i].SeekingStatus,
 									id: a2data[i].id,
-									Title: a2data[i].Title,
 									FirstName: a2data[i].FirstName,
 									LastName: a2data[i].LastName
 								}
