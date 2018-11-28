@@ -80,6 +80,9 @@ class LoginPage extends React.Component {
         const { username, password, submitted, loading, error } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
+                <head>
+                <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
+                </head> 
                 <div className="alert alert-info">
                     Username: test<br />
                     Password: test

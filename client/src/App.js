@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { PrivateRoute } from './components/PrivateRoute';
 import { HomePage } from './HomePage';
 import { LoginPage } from './LoginPage';
+import { RegisterPage } from './RegisterPage';
 // import Home from '../components/Home.js';
 import PeopleComp from './components/PeopleComp/PeopleComp.js';
 import UpdateComp from './components/PeopleComp/UpdateComp.js';
@@ -26,6 +27,7 @@ class App extends React.Component {
                         <div>
                             <PrivateRoute exact path="/" component={HomePage} />
                             <Route path="/login" component={LoginPage} />
+                            <Route path="/register" component={RegisterPage} />
                             <Route path = "/Insert" component = {PeopleComp}/>
                             <Route path = "/Edit" component = {UpdateComp}/>
                             <Route path = "/Recommend" component = {Recommend}/>
