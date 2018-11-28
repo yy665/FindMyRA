@@ -8,6 +8,7 @@ import './Testdata.js'
 
 class UpdateComp extends Component {
 	constructor(props){
+		console.log("I am here!");
 		global.constants = [[],[]];
 		var data = global.constants[0];
 		super(props);

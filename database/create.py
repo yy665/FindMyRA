@@ -75,6 +75,13 @@ ResearcherRelatedArea = """CREATE TABLE ResearcherRelatedArea(
     PRIMARY KEY (Researcher_id,Area_id)
 );"""
 
+UserLogin = """CREATE TABLE UserLogin(
+    User_id CHAR(10) NOT NULL,
+    Password CHAR(10),
+    isNew BOOLEAN,
+    PRIMARY KEY(User_id)
+);"""
+
 
 def connectdb():
     print('connecting to mysql server..')
@@ -122,6 +129,7 @@ def main():
     createdb(connection, Affliation)
     createdb(connection, ProjectRelatedArea)
     createdb(connection, ResearcherRelatedArea)
+    createdb(connection, UserLogin)
     closedb(connection)
 
 
