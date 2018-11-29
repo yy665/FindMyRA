@@ -5,6 +5,9 @@ import './HomePage.css';
 // import PeopleComp from '../components/PeopleComp/PeopleComp.js';
 // import UpdateComp from '../components/PeopleComp/UpdateComp.js';
 import Home from '../components/Home.js';
+import { Button,Navbar, Nav,NavItem,NavDropdown,MenuItem } from 'react-bootstrap';
+import Project from '../ProjectPage/ProjectPage'
+import NavComp from '../components/NavComp/NavComp';
 // import VisualizeComp from '../components/PeopleComp/VisualizeComp.js';
 // import Recommend from '../components/PeopleComp/Recommendation.js';
 
@@ -45,6 +48,9 @@ class HomePage extends Component {
   render() {
     return (
       <div className="App">
+      <NavComp></NavComp>
+
+      
       
         <div>
         <Link to = "/"> Home </Link>
@@ -67,13 +73,13 @@ class HomePage extends Component {
         <Link to = "/Visualize"> Visualize FIND RA </Link>
         </div>
 
-        <p>
+        {/* <p>
           <Link to="/login">Logout</Link>
         </p>
 
         
         <hr />
-        <Route exact path = "/" component={Home} />
+        <Route exact path = "/" component={Home} /> */}
         
 
         
