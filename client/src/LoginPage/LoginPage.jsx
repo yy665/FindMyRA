@@ -65,6 +65,7 @@ class LoginPage extends React.Component {
                 if (JSON.stringify(user) != undefined) {
                     // store user details and basic auth credentials in local storage 
                     // to keep user logged in between page refreshes
+                    user.table = table;
                     user.authdata = window.btoa(user.User_id + ':' + user.Password);
                     localStorage.setItem('user', JSON.stringify(user));
                 }
