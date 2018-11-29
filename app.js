@@ -14,6 +14,8 @@ var updateRouter = require('./routes/update');
 var queryRouter = require('./routes/query');
 var userLogin = require('./routes/login');
 var userRegister = require('./routes/registerUser');
+var studentApply = require('./routes/studentApply');
+var studentApplyDel = require('./routes/studentApplyDel');
 
 var app = express();
 
@@ -43,6 +45,8 @@ app.use('/update', updateRouter);
 app.use('/query', queryRouter);
 app.use('/login', userLogin);
 app.use('/registerUser', userRegister);
+app.use('/studentApply', studentApply);
+app.use('/studentApplyDel', studentApplyDel);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

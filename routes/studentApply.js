@@ -13,10 +13,12 @@ connection.connect();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'SELECT * FROM ' + req.body.table;
+  var sql = 'INSERT INTO StudentContributor VALUES(\"' + req.body.id + "\", \"" + req.body.Project_id + "\")";
   console.log(sql);
   connection.query(sql, function(error, results, fields){
-    if (error) throw error;
+    if (error){
+        console.log(error);
+    }
     else{
       res.json(results);
     }

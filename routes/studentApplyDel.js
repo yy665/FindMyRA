@@ -13,12 +13,17 @@ connection.connect();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'SELECT * FROM ' + req.body.table;
-  console.log(sql);
-  connection.query(sql, function(error, results, fields){
-    if (error) throw error;
+  // res.send('respond with a resource');
+  var sql
+  sql = "DELETE FROM StudentContributor" + " WHERE id = \"" + req.body.id + "\" AND Project_id = \"" + req.body.Project_id+"\"";
+
+  connection.query(sql , function(error, results, fields){
+    if (error){
+      console.log(error);
+    }
     else{
-      res.json(results);
+      var reminder = { "Success" : "True"};
+      res.json(reminder);
     }
   })
   

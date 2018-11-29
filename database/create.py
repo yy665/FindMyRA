@@ -59,6 +59,22 @@ Contributor = """CREATE TABLE Contributor(
     PRIMARY KEY (Researcher_id,Project_id)
 );"""
 
+StudentContributor = """CREATE TABLE StudentContributor(
+    id CHAR(30),
+    Project_id CHAR(30),
+    PRIMARY KEY (id,Project_id),
+    FOREIGN KEY (id) REFERENCES Student (id),
+    FOREIGN KEY (Project_id) REFERENCES Project (Project_id)
+);"""
+
+AdvisorContributor = """CREATE TABLE AdvisorContributor(
+    id CHAR(30),
+    Project_id CHAR(30),
+    PRIMARY KEY (id,Project_id),
+    FOREIGN KEY (id) REFERENCES Advisor (id),
+    FOREIGN KEY (Project_id) REFERENCES Project (Project_id)
+);"""
+
 Affliation = """CREATE TABLE Affliation(
     Researcher_id CHAR(30),
     Institution_id CHAR(30),
