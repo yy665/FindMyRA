@@ -3,6 +3,7 @@ import {Table, Divider} from 'antd';
 import Button from 'antd/lib/button'
 import 'antd/dist/antd.css'
 import './Testdata.js'
+import NavComp from '../NavComp/NavComp';
 
 
 
@@ -764,6 +765,7 @@ class UpdateComp extends Component {
 		  {/* <div>
 		  	<button onClick={this.demonstrate}>Demonstrate</button>
 		  </div> */}
+		
 		  <Button id = "SQueryButton" type ="primary" style= {{visibility:"visible"}} onClick = {this.handleSQuery}> Search </Button>
 
 
