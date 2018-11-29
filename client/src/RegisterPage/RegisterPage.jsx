@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 
 
 class RegisterPage extends React.Component {
@@ -6,17 +7,9 @@ class RegisterPage extends React.Component {
         super(props);
 
         // userService.logout();
-        localStorage.removeItem('user');
+        // localStorage.removeItem('user');
 
-        // this.state = {
-        //     username: '',
-        //     password: '',
-        //     submitted: false,
-        //     loading: false,
-        //     error: ''
-        // };
-
-        this.state = {id : 0,
+        this.state = {
             username: null,
             password: null,
             firstname: null,
@@ -33,10 +26,101 @@ class RegisterPage extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(e){
+        if(e.target.id === "s"){
+            // this.setState({id:username});
+            this.setState({fullsql: "INSERT INTO Student"+this.state.sql+
+            "VALUES ("+this.state.username+","+this.state.password+","+this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.degree+","+this.state.year+","+this.state.gpa+","+
+            this.state.group+","+this.state.advisor+")"});
+
+            // send to the backend
+            var data = {
+                table: "Student",
+                username : this.state.username,
+                password: this.state.password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                seeking: this.state.seeking,
+                degree: this.state.degree,
+                year: this.state.year,
+                gpa: this.state.gpa,
+                group: this.state.group,
+                advisor: this.state.advisor
+            }
+
+            fetch(`/registerUser`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials':true,
+                  'Access-Control-Allow-Methods':'POST, GET',
+                  "Content-Type": "application/json"
+                }
+              }).then(res => res.json())
+              .then(response =>{
+                // console.log('Sucess:' , JSON.stringify(response))
+                // console.log(response.Status);
+                if(response.Status == "Flase"){
+                    alert("Your input is invalid!");
+                }
+                else{
+                    // localStorage.setItem('user', JSON.stringify(user));
+                    // console.log("here!");
+                    const { from } = this.props.location.state || { from: { pathname: "/login" } };
+                    alert("Successful!");
+                    this.props.history.push(from);
+                }
+              } )
+              .catch(error=> console.log('Error:', error));
+        }
+        else{
+            // this.setState({id: Math.floor(Math.random()*10000) + Math.random()*10000});
+            this.setState({fullsql: "INSERT INTO Advisor" + this.state.sql+
+            " VALUES ("+this.state.id+","+ this.state.firstname+","+this.state.lastname+","+this.state.seeking+","+this.state.title+")"});
+
+            data = {
+                table: "Advisor",
+                username : this.state.username,
+                password: this.state.password,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                seeking: this.state.seeking,
+                title: this.state.title
+            }
+            fetch(`/registerUser`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Credentials':true,
+                  'Access-Control-Allow-Methods':'POST, GET',
+                  "Content-Type": "application/json"
+                }
+              }).then(res => res.json())
+              .then(response => {
+                // console.log(response)
+                if(response.Status == "Flase"){
+                    alert("Your input is invalid!");
+                }
+                else{
+                    const { from } = this.props.location.state || { from: { pathname: "/login" } };
+                    alert("Successful!");
+                    this.props.history.push(from);
+                }
+              })
+              .catch(error=> console.log('Error:', error));
+        }
+        
     }
 
     handleChange(e){
         if(e.target.name === "identity")this.ChooseInput();
+        else if(e.target.name === "email")this.setState({username:e.target.value});
+        else if(e.target.name === "password")this.setState({password:e.target.value});
         else if(e.target.name === "firstname")this.setState({firstname:e.target.value});
         else if(e.target.name === "lastname")this.setState({lastname:e.target.value});
         else if(e.target.name === "seek" || e.target.name === "seek2"){
@@ -93,6 +177,14 @@ class RegisterPage extends React.Component {
                 <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
                 </head> 
                 <div>
+                    What's your email address?
+                    <input type="text" class="form-control" name="email" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}></text>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+                    what is your password?
+                    <input type="password" class="form-control" name="password" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}></text>
+                </div>
+                <div>
                     Are you a student or a professor?
                 <select class="custom-select" name = "identity" id = "researcher" onChange={this.handleChange}>
                     <option value="choose">==Choose==</option>
@@ -104,7 +196,7 @@ class RegisterPage extends React.Component {
                 <div>
                 First name(*required):
                     <input type="text" class="form-control" name="firstname" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}></text>
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    {/* <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> */}
                     
                 Last name(*required):
                     <input type="text" class="form-control" name="lastname" defaultValue="" onChange={this.handleChange}></input> <text style={{color:"red"}}></text>
@@ -149,8 +241,8 @@ class RegisterPage extends React.Component {
                 </div>
     
                 <div>
-                    Who is your advisor?
-                    <input type="text" class="form-control" name="advisor" onChange={this.handleChange}></input> <text style={{color:"red"}}>(*required. Please input your advisor's id.)</text>
+                    Who is your advisor?(<text style={{color:"red"}}>*required. Please input your advisor's id. If you do not have an advisor, Please input nobody@illinois.edu)
+                    <input type="text" class="form-control" name="advisor" onChange={this.handleChange}></input> </text>
                 </div>
     
                 
@@ -176,11 +268,11 @@ class RegisterPage extends React.Component {
     
                 <div id = "Layer2" style = {{top: "100px", visibility: "hidden"}}>
                 <div>
-                First name:
-                    <input type="text" class="form-control" name="firstname" onChange={this.handleChange} defaultValue=""></input> <text style={{color:"red"}}>(*required)</text>
+                First name<text style={{color:"red"}}>(*required):
+                    <input type="text" class="form-control" name="firstname" onChange={this.handleChange} defaultValue=""></input> </text>
                     
-                    Last name:
-                    <input type="text" class="form-control" name="lastname" defaultValue="" onChange={this.handleChange}></input> <text style={{color:"red"}}>(*required)</text>
+                    Last name(<text style={{color:"red"}}>*required):
+                    <input type="text" class="form-control" name="lastname" defaultValue="" onChange={this.handleChange}></input> </text>
                 </div>
     
                 <div>

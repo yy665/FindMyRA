@@ -13,6 +13,7 @@ var deleteRouter = require('./routes/delete');
 var updateRouter = require('./routes/update');
 var queryRouter = require('./routes/query');
 var userLogin = require('./routes/login');
+var userRegister = require('./routes/registerUser');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use('/delete', deleteRouter);
 app.use('/update', updateRouter);
 app.use('/query', queryRouter);
 app.use('/login', userLogin);
+app.use('/registerUser', userRegister);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

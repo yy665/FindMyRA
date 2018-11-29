@@ -2,85 +2,94 @@ import pymysql
 
 
 Project = """CREATE TABLE Project(
-    Project_id CHAR(10) NOT NULL,
+    Project_id CHAR(30) NOT NULL,
     Project_Name CHAR(50),
-    Sponsor CHAR(20),
+    Sponsor CHAR(30),
     Active BOOLEAN,
     PRIMARY KEY(Project_id)
 );"""
 
 Researcher = """CREATE TABLE Researcher(
-    Researcher_id CHAR(10) NOT NULL,
-    FirstName CHAR(20),
-    LastName CHAR(20),
+    Researcher_id CHAR(30) NOT NULL,
+    FirstName CHAR(30),
+    LastName CHAR(30),
     PRIMARY KEY(Researcher_id)
 );"""
 
 Institution = """CREATE TABLE Institution(
-    Institution_id CHAR(10) NOT NULL,
-    InstitutionType CHAR(10),
-    Name CHAR(20),
+    Institution_id CHAR(30) NOT NULL,
+    InstitutionType CHAR(30),
+    Name CHAR(30),
     PRIMARY KEY(Institution_id)
 );"""
 
 ResearchArea = """CREATE TABLE ResearchArea(
-    Area_id CHAR(10) NOT NULL,
-    Field CHAR(10),
-    AreaName CHAR(20),
+    Area_id CHAR(30) NOT NULL,
+    Field CHAR(30),
+    AreaName CHAR(30),
     PRIMARY KEY(Area_id)
 );"""
 
 Advisor = """CREATE TABLE Advisor(
-    id CHAR(10) PRIMARY KEY,
-    FirstName CHAR(20),
-    LastName CHAR(20),
+    id CHAR(30) PRIMARY KEY,
+    Password CHAR(30) NOT NULL,
+    FirstName CHAR(30),
+    LastName CHAR(30),
     SeekingStatus INT,
-    Title CHAR(20)
+    Title CHAR(30)
 );"""
 
 Student = """CREATE TABLE Student(
-    id CHAR(10) PRIMARY KEY,
-    FirstName CHAR(20),
-    LastName CHAR(20),
+    id CHAR(30) PRIMARY KEY,
+    Password CHAR(30) NOT NULL,
+    FirstName CHAR(30),
+    LastName CHAR(30),
     SeekingStatus INT,
-    Degree CHAR(15),
-    SchoolYear CHAR(10),
+    Degree CHAR(30),
+    SchoolYear CHAR(30),
     GPA FLOAT,
-    GroupPreference CHAR(20),
-    Advisor CHAR(10),
+    GroupPreference CHAR(30),
+    Advisor CHAR(30),
     FOREIGN KEY (Advisor) REFERENCES Advisor (id)
 );"""
 
 Contributor = """CREATE TABLE Contributor(
-    Researcher_id CHAR(10),
-    Project_id CHAR(10),
+    Researcher_id CHAR(30),
+    Project_id CHAR(30),
     PRIMARY KEY (Researcher_id,Project_id)
 );"""
 
 Affliation = """CREATE TABLE Affliation(
-    Researcher_id CHAR(10),
-    Institution_id CHAR(10),
+    Researcher_id CHAR(30),
+    Institution_id CHAR(30),
     PRIMARY KEY (Researcher_id,Institution_id)
 );"""
 
 ProjectRelatedArea = """CREATE TABLE ProjectRelatedArea(
-    Project_id CHAR(10),
-    Area_id CHAR(10),
+    Project_id CHAR(30),
+    Area_id CHAR(30),
     PRIMARY KEY (Project_id,Area_id)
 );"""
 
 ResearcherRelatedArea = """CREATE TABLE ResearcherRelatedArea(
-    Researcher_id CHAR(10),
-    Area_id CHAR(10),
+    Researcher_id CHAR(30),
+    Area_id CHAR(30),
     PRIMARY KEY (Researcher_id,Area_id)
 );"""
 
-UserLogin = """CREATE TABLE UserLogin(
-    User_id CHAR(10) NOT NULL,
-    Password CHAR(10),
-    isNew BOOLEAN,
-    PRIMARY KEY(User_id)
-);"""
+# UserLogin = """CREATE TABLE UserLogin(
+#     id CHAR(30) PRIMARY KEY,
+#     Password CHAR(20) NOT NULL,
+#     FirstName CHAR(20),
+#     LastName CHAR(20),
+#     SeekingStatus INT,
+#     Degree CHAR(15),
+#     SchoolYear CHAR(10),
+#     GPA FLOAT,
+#     GroupPreference CHAR(20),
+#     Advisor CHAR(10),
+#     FOREIGN KEY (Advisor) REFERENCES Advisor (id)
+# );"""
 
 
 def connectdb():
@@ -120,7 +129,7 @@ def closedb(db):
 def main():
     connection = connectdb()
     createdb(connection, Project)
-    createdb(connection, Researcher)
+    # createdb(connection, Researcher)
     createdb(connection, Institution)
     createdb(connection, ResearchArea)
     createdb(connection, Advisor)
@@ -129,7 +138,7 @@ def main():
     createdb(connection, Affliation)
     createdb(connection, ProjectRelatedArea)
     createdb(connection, ResearcherRelatedArea)
-    createdb(connection, UserLogin)
+    # createdb(connection, UserLogin)
     closedb(connection)
 
 

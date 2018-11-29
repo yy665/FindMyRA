@@ -14,8 +14,12 @@ connection.connect();
 /* GET users listing. */
 router.post('/', function(req, res, next) {
     var sql;
-  
-    sql = "SELECT * FROM UserLogin WHERE " + "User_id=\"" + req.body.username + "\" " + " AND " + "Password=\"" + req.body.password + "\" ";
+    if(req.body.table == "Student"){
+        sql = "SELECT * FROM Student WHERE " + "id=\"" + req.body.username + "\" " + " AND " + "Password=\"" + req.body.password + "\" ";
+    }      
+    else{
+        sql = "SELECT * FROM Advisor WHERE " + "id=\"" + req.body.username + "\" " + " AND " + "Password=\"" + req.body.password + "\" ";
+    }
     console.log(sql);
     connection.query(sql , function(error, results, fields){
         console.log(results.length);
