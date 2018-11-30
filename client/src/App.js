@@ -12,6 +12,8 @@ import VisualizeComp from './components/PeopleComp/VisualizeComp.js';
 import Recommend from './components/PeopleComp/Recommendation.js';
 import { ProjectPage} from './ProjectPage';
 import {PersonalUpdate} from './PersonalUpdate';
+import {ProjectAdvisorPage} from './ProjectAdvisorPage';
+import {ProjectDetailPage} from './ProjectDetailPage';
 
 
 
@@ -37,6 +39,8 @@ class App extends React.Component {
                             <Route path = "/Project" component = {ProjectPage}/>
                             <Route path = "/Setting" component = {PersonalUpdate}/>
                             <Route path = "/AdminUpdate" component = {UpdateComp}/>
+                            <Route path = "/ProjectAdd" component = {ProjectAdvisorPage}/>
+                            <Route path = "/ProjectDetail" component = {ProjectDetailPage}/>
                         </div>
                     </Router>
                 </div>

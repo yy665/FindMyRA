@@ -16,6 +16,14 @@ var userLogin = require('./routes/login');
 var userRegister = require('./routes/registerUser');
 var studentApply = require('./routes/studentApply');
 var studentApplyDel = require('./routes/studentApplyDel');
+var advisorApply = require('./routes/advisorApply');
+var advisorApplyDel = require('./routes/advisorApplyDel');
+var addProject = require('./routes/addProject');
+var showProjectStudent = require('./routes/showProjectStudent');
+var showProjectAdvisor = require('./routes/showProjectAdvisor');
+var deleteProjectStudent = require('./routes/deleteProjectStudent');
+var deleteProjectAdvisor = require('./routes/deleteProjectAdvisor');
+
 
 var app = express();
 
@@ -47,6 +55,13 @@ app.use('/login', userLogin);
 app.use('/registerUser', userRegister);
 app.use('/studentApply', studentApply);
 app.use('/studentApplyDel', studentApplyDel);
+app.use('/advisorApply', advisorApply);
+app.use('/advisorApplyDel', advisorApplyDel);
+app.use('/addProject', addProject);
+app.use('/showProjectStudent', showProjectStudent);
+app.use('/showProjectAdvisor', showProjectAdvisor);
+app.use('/deleteProjectStudent', deleteProjectStudent);
+app.use('/deleteProjectAdvisor', deleteProjectAdvisor);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

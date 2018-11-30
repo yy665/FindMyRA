@@ -8,21 +8,18 @@ import NavComp from '../components/NavComp/NavComp';
 import Button from 'antd/lib/button';
 import {Table, Divider} from 'antd';
 import 'antd/dist/antd.css';
+import Select from 'react-select';
 
 
 
 
-class ProjectPage extends Component {
+class ProjectAdvisorPage extends Component {
   constructor(props){
     super(props);
-    // console.log(localStorage.user.split("\""));
-    // console.log(localStorage.user.split("\"")[39]);
-    if(localStorage.user.split("\"")[39] === "Student")
-        console.log("HERE is Student!");
-    else{
-        const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
-        this.props.history.push(from);
-    }
+    console.log(localStorage.user.split("\""));
+    console.log(localStorage.user.split("\"")[3]);
+    // if(localStorage.user.split("\"")[39] === "Student")
+    //     console.log("HERE is Student!");
     global.constants = [[],[]];
 	var data = global.constants[0];
     this.state = {
@@ -69,13 +66,24 @@ class ProjectPage extends Component {
                         dataIndex:"id",
                         key:"id",
                         render:(text,record,index)=>(<span>
-                                {/* <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button> */}
+                                <Button id={text} type = "primary" onClick = {this.handleProjectDetails}> Details </Button>
                                 {/* <Divider type = "vertical"/> */}
                                 <Button id={text} type = "danger" onClick = {this.handleProjectDelete}> Delete </Button>
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+            selectOptions : [
+                { value: 'chocolate', label: 'Chocolate' },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' }
+              ],
+            selectedOption: null,
+            ProjectName: null,
+            Sponsor:null,
+            Active:0
+
+
     };
     var sdata = {
         table: "Project"
@@ -112,7 +120,7 @@ class ProjectPage extends Component {
       })
     
     var adata = {
-        table: "StudentContributor"
+        table: "AdvisorContributor"
     }
 
     fetch(`/demonstrate`, {
@@ -143,6 +151,11 @@ class ProjectPage extends Component {
 
     this.handleProjectApply = this.handleProjectApply.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleAddProject = this.handleAddProject.bind(this);
+    this.handleProjectDetails = this.handleProjectDetails.bind(this);
   }
 
   handleProjectApply(e){
@@ -156,7 +169,7 @@ class ProjectPage extends Component {
         id : localStorage.user.split("\"")[3],
         Project_id: this.state.dataSource[id].id
     }
-    fetch(`/studentApply`, {
+    fetch(`/advisorApply`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -168,7 +181,7 @@ class ProjectPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "StudentContributor"
+            table: "AdvisorContributor"
         }
     
           fetch(`/demonstrate`, {
@@ -210,7 +223,7 @@ class ProjectPage extends Component {
         Project_id: this.state.currentSource[id].id
     }
     console.log(data);
-    fetch(`/studentApplyDel`, {
+    fetch(`/advisorApplyDel`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -221,7 +234,7 @@ class ProjectPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "StudentContributor"
+            table: "AdvisorContributor"
         }
     
           fetch(`/demonstrate`, {
@@ -254,6 +267,91 @@ class ProjectPage extends Component {
       
   }
 
+  handleAdd(e){
+    var Layer1 = document.getElementById('Add');
+    Layer1.style.visibility = "visible";
+  }
+
+  handleChange(e){
+    console.log(e.target.name);
+    if(e.target.name === "ProjectName")this.setState({ProjectName:e.target.value});
+    else if(e.target.name === "Sponsor")this.setState({Sponsor:e.target.value});
+    else if(e.target.name === "Active"){
+        var obj = document.getElementById(e.target.id);
+        var index = obj.selectedIndex;
+        var val = obj.options[index].value;
+        if(val === "Yes")this.setState({Active: 1});
+        else this.setState({Active:0});
+    }
+    // else if(e.target.name === "Area"){
+    //     this.setState({ selectedOption:e.target.value });
+    // }
+  }
+
+  handleSelectChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
+
+  handleAddProject(e){
+        console.log(this.state);
+        var data = {
+            Project_id : localStorage.user.split("\"")[3]+" " + this.state.ProjectName,
+            Project_Name: this.state.ProjectName,
+            Sponsor:this.state.Sponsor,
+            Active:this.state.Active
+        }
+
+        fetch(`/addProject`, {
+            method: 'Post',
+            body: JSON.stringify(data),
+            headers:{
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials':true,
+              'Access-Control-Allow-Methods':'POST, GET',
+              "Content-Type": "application/json"
+            }
+        })
+        .then(
+            res=>{
+                console.log(res);
+                // const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
+                // this.props.history.push(from);
+                var data = {
+                    id : localStorage.user.split("\"")[3],
+                    Project_id:  localStorage.user.split("\"")[3]+" " + this.state.ProjectName
+                }
+                fetch(`/advisorApply`, {
+                    method: 'Post',
+                    body: JSON.stringify(data),
+                    headers:{
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Credentials':true,
+                      'Access-Control-Allow-Methods':'POST, GET',
+                      "Content-Type": "application/json"
+                    }
+                  })
+                  .then(
+                      res=>{
+                        console.log(res);
+                        const { from } = this.props.location.state || { from: { pathname: "/Project" } };
+                        this.props.history.push(from);
+                      }
+                  )
+            }
+        )
+  }
+
+  handleProjectDetails(e){
+    var id = e.target.id;
+	for (var i = 0; i<this.state.currentSource.length;i++){
+		if(this.state.currentSource[i].id === id) id = i;
+    }
+    console.log(this.state.currentSource[id]);
+    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetail" } };
+    this.props.history.push(from);
+  }
+
   render() {
     return (
       <div className="App">
@@ -277,9 +375,38 @@ class ProjectPage extends Component {
         current enrolled projects
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
-            </div>   
+            <Button onClick = {this.handleAdd}>Add New Project</Button>
+            </div>  
 
-            
+            {/* ADD part  */}
+            <div id = "Add" style = {{top: "100px", visibility: "hidden"}}>
+                <div>
+                ProjectName<text style={{color:"red"}}>(*required):
+                    <input type="text" class="form-control" name="ProjectName" onChange={this.handleChange} defaultValue=""></input> </text>
+                    
+                    Sponsor(<text style={{color:"red"}}>*required):
+                    <input type="text" class="form-control" name="Sponsor" defaultValue="" onChange={this.handleChange}></input> </text>
+                </div>
+    
+                <div>
+                    Are you seeking for students now?
+                <select class="custom-select" name = "Active" id = "Active" onChange={this.handleChange}>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                </div>
+
+                <div>
+                    Realated Area:
+                    <Select
+                        name = "Area"
+                        value={this.state.selectedOption}
+                        onChange={this.handleSelectChange}
+                        options={this.state.selectOptions}
+                    />
+                     <Button type = "primary" onClick = {this.handleAddProject}> Click to Add! </Button>
+                </div>
+            </div>
         
         
         {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
@@ -288,4 +415,4 @@ class ProjectPage extends Component {
   }
 }
 
-export {ProjectPage }; 
+export {ProjectAdvisorPage }; 
