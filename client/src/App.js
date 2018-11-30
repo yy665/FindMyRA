@@ -17,6 +17,7 @@ import {ProjectDetailPage} from './ProjectDetailPage';
 import {ProjectDetailRestrictedPage} from './ProjectDetailRestrictedPage';
 import {StudentSetting} from './StudentSetting';
 import {AdvisorSetting} from './AdvisorSetting';
+import {ProjectSearch} from './ProjectSearch';
 
 
 
@@ -47,6 +48,7 @@ class App extends React.Component {
                             <Route path = "/ProjectDetailRestrict" component = {ProjectDetailRestrictedPage}/>
                             <Route path = "/Setting" component = {StudentSetting}/>
                             <Route path = "/AdvisorSetting" component = {AdvisorSetting}/>
+                            <Route path = "/ProjectSearch" component = {ProjectSearch}/>
                         </div>
                     </Router>
                 </div>
