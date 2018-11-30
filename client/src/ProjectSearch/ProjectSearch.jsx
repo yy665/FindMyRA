@@ -76,7 +76,17 @@ class ProjectSearch extends Component {
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+
+
+            //for searching
+            name: "",
+            sFirst: "",
+            sLast: "",
+            pFirst: "",
+            pLast: ""
+            
+
     };
     var sdata = {
         table: "Project"
@@ -150,10 +160,61 @@ class ProjectSearch extends Component {
   }
 
   handleQuery(e){
+     if(e.target.id === "name")this.setState({name:e.target.value});
+     if(e.target.id === "pFirstName")this.setState({pFirst:e.target.value});
+     if(e.target.id === "pLastName")this.setState({pLast:e.target.value});
+     if(e.target.id === "sFirstName")this.setState({sFirst:e.target.value});
+     if(e.target.id === "sLastName")this.setState({sLast:e.target.value});
+
+
+     //search button
     if(e.target.id === "search"){
       var result = document.getElementById('result');
       result.style.visibility = "visible";
+
+      var data = {
+        name: this.state.name,
+        sf: this.state.sFirst,
+        sl: this.state.sLast,
+        pf: this.state.pFirst,
+        pl: this.state.pLast
+      }
+
+
+      fetch(`/queryProject`, {
+        method: 'Post',
+        body: JSON.stringify(data),
+        headers:{
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials':true,
+          'Access-Control-Allow-Methods':'POST, GET',
+          "Content-Type": "application/json"
+        }
+        }).then(res => res.json()).then(
+        data => {
+
+          console.log(data); 
+          var jsontmp;  
+                var tmp = [];
+                for(var i = 0; i < data.length; i ++){
+                    data[i]["key"] = 0;
+                    jsontmp = {
+                        key :0,
+                        id: data[i].Project_id,
+                    }
+                    tmp.push(jsontmp);
+                }
+                console.log(tmp);
+                this.setState({dataSource:tmp});
+        }
+      );
+
+
     }
+   
+
+    
+
 
   }
 
@@ -308,7 +369,7 @@ class ProjectSearch extends Component {
         Please fill in any of the filters.<br />
         <br/>
         <div class="form-group row">
-          <div class = "col-md-4 mb-3">
+          <div class = "col-md-5 mb-3">
             <label for="projectQuery">Project Name</label>
             <input type="text" class="form-control" id="name" placeholder="Project1" onChange = {this.handleQuery}></input>
           </div>
