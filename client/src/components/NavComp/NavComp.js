@@ -7,6 +7,7 @@ class NavComp extends React.Component {
     <div>
         <head>
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
+            <link rel="stylesheet" href="https://bootswatch.com/_assets/css/custom.min.css"></link>
             {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link> */}
         </head>
 
