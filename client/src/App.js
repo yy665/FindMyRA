@@ -14,6 +14,7 @@ import { ProjectPage} from './ProjectPage';
 import {PersonalUpdate} from './PersonalUpdate';
 import {ProjectAdvisorPage} from './ProjectAdvisorPage';
 import {ProjectDetailPage} from './ProjectDetailPage';
+import {ProjectDetailRestrictedPage} from './ProjectDetailRestrictedPage';
 
 
 
@@ -41,6 +42,7 @@ class App extends React.Component {
                             <Route path = "/AdminUpdate" component = {UpdateComp}/>
                             <Route path = "/ProjectAdd" component = {ProjectAdvisorPage}/>
                             <Route path = "/ProjectDetail" component = {ProjectDetailPage}/>
+                            <Route path = "/ProjectDetailRestrict" component = {ProjectDetailRestrictedPage}/>
                         </div>
                     </Router>
                 </div>

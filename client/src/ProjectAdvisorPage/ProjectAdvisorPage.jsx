@@ -348,6 +348,10 @@ class ProjectAdvisorPage extends Component {
 		if(this.state.currentSource[i].id === id) id = i;
     }
     console.log(this.state.currentSource[id]);
+    var project = {
+        id: this.state.currentSource[id].id
+    }
+    localStorage.setItem('project', JSON.stringify(project));
     const { from } = this.props.location.state || { from: { pathname: "/ProjectDetail" } };
     this.props.history.push(from);
   }

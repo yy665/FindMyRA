@@ -15,7 +15,8 @@ import 'antd/dist/antd.css';
 class ProjectDetailPage extends Component {
   constructor(props){
     super(props);
-    // console.log(localStorage.user.split("\""));
+    var currentproject = localStorage.project.split("\"")[3]
+    // console.log();
     // console.log(localStorage.user.split("\"")[39]);
     // if(localStorage.user.split("\"")[39] === "Student")
     //     console.log("HERE is Student!");
@@ -69,10 +70,11 @@ class ProjectDetailPage extends Component {
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+            projectID: currentproject
     };
     var sdata = {
-        Project_id: "Abdu+Virtual Reality"
+        Project_id: this.state.projectID
     }
     fetch(`/showProjectStudent`, {
         method: 'Post',
@@ -106,7 +108,7 @@ class ProjectDetailPage extends Component {
       })
     
     var adata = {
-        Project_id: "Abdu+Virtual Reality"
+        Project_id: this.state.projectID
     }
 
     fetch(`/showProjectAdvisor`, {
@@ -151,7 +153,7 @@ class ProjectDetailPage extends Component {
     console.log(localStorage.user.split("\"")[3]);
     var data = {
         id : this.state.dataSource[id].id,
-        Project_id : "Abdu+Virtual Reality"
+        Project_id : this.state.projectID
 
     }
     fetch(`/deleteProjectStudent`, {
@@ -166,7 +168,7 @@ class ProjectDetailPage extends Component {
       }).then(res => {
           //
         var sdata = {
-            Project_id: "Abdu+Virtual Reality"
+            Project_id: this.state.projectID
         }
         fetch(`/showProjectStudent`, {
             method: 'Post',
@@ -209,7 +211,7 @@ class ProjectDetailPage extends Component {
     // console.log(localStorage.user.split("\"")[3]);
     var data = {
         id : this.state.currentSource[id].id,
-        Project_id : "Abdu+Virtual Reality"
+        Project_id : this.state.projectID
     }
     console.log(data);
     fetch(`/deleteProjectAdvisor`, {
@@ -223,7 +225,7 @@ class ProjectDetailPage extends Component {
         }
       }).then(res => {
           var adata = {
-        Project_id: "Abdu+Virtual Reality"
+        Project_id: this.state.projectID
     }
 
     fetch(`/showProjectAdvisor`, {
@@ -275,12 +277,12 @@ class ProjectDetailPage extends Component {
         {/* <div class="">
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
         </div> */}
-        current offered projects
+        Current Students
         
             <div class="container">
                 <Table columns = {this.state.scolumns} dataSource = {this.state.dataSource} />
             </div> 
-        current enrolled projects
+        Current Professors
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
             </div>   

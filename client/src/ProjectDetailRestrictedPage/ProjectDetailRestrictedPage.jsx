@@ -12,17 +12,18 @@ import 'antd/dist/antd.css';
 
 
 
-class ProjectPage extends Component {
+class ProjectDetailRestrictedPage extends Component {
   constructor(props){
     super(props);
-    // console.log(localStorage.user.split("\""));
+    var currentproject = localStorage.project.split("\"")[3]
+    // console.log();
     // console.log(localStorage.user.split("\"")[39]);
-    if(localStorage.user.split("\"")[39] === "Student")
-        console.log("HERE is Student!");
-    else{
-        const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
-        this.props.history.push(from);
-    }
+    // if(localStorage.user.split("\"")[39] === "Student")
+    //     console.log("HERE is Student!");
+    // else{
+    //     const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
+    //     this.props.history.push(from);
+    // }
     global.constants = [[],[]];
 	var data = global.constants[0];
     this.state = {
@@ -32,23 +33,19 @@ class ProjectPage extends Component {
             dataIndex: "id",
             key: "id",
             },
-            {title: "Project Name",
-            dataIndex: "ProjectName",
-            key: "ProjectName"},
-            {title:"Sponsor",
-            dataIndex:"Sponsor",
-            key:"Sponsor"},
-            {title:"Active",
-            dataIndex:"Active",
-            key:"Active"},
+            {title: "First Name",
+            dataIndex: "FirstName",
+            key: "FirstName"},
+            {title:"Last Name",
+            dataIndex:"LastName",
+            key:"LastName"},
             {title:"Action",
             dataIndex:"id",
             key:"id",
             render:(text,record,index)=>(<span>
-                    <Button id={text} type = "primary" onClick = {this.handlecurrentProjectDetails}>Details </Button>   
-                    <Button id={text} type = "danger" onClick = {this.handleProjectApply}> Apply </Button>
+                    {/* <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button> */}
                     {/* <Divider type = "vertical"/> */}
-                    
+                    {/* <Button id={text} type = "danger" onClick = {this.handleStudentDelete}> Delete </Button> */}
                     </span>
                     )}],
 
@@ -57,31 +54,29 @@ class ProjectPage extends Component {
                         dataIndex: "id",
                         key: "id",
                         },
-                        {title: "Project Name",
-                        dataIndex: "ProjectName",
-                        key: "ProjectName"},
-                        {title:"Sponsor",
-                        dataIndex:"Sponsor",
-                        key:"Sponsor"},
-                        {title:"Active",
-                        dataIndex:"Active",
-                        key:"Active"},
+                        {title: "First Name",
+                        dataIndex: "FirstName",
+                        key: "FirstName"},
+                        {title:"Last Name",
+                        dataIndex:"LastName",
+                        key:"LastName"},
                         {title:"Action",
                         dataIndex:"id",
                         key:"id",
                         render:(text,record,index)=>(<span>
-                                <Button id={text} type = "primary" onClick = {this.handleenrolledProjectDetails}> Details </Button>
+                                {/* <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button> */}
                                 {/* <Divider type = "vertical"/> */}
-                                <Button id={text} type = "danger" onClick = {this.handleProjectDelete}> Delete </Button>
+                                {/* <Button id={text} type = "danger" onClick = {this.handleAdvisorDelete}> Delete </Button> */}
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+            projectID: currentproject
     };
     var sdata = {
-        table: "Project"
+        Project_id: this.state.projectID
     }
-    fetch(`/demonstrate`, {
+    fetch(`/showProjectStudent`, {
         method: 'Post',
         body: JSON.stringify(sdata),
         headers:{
@@ -90,7 +85,8 @@ class ProjectPage extends Component {
           'Access-Control-Allow-Methods':'POST, GET',
           "Content-Type": "application/json"
         }
-      }).then(res => res.json())
+      })
+      .then(res => res.json())
       .then(data=>{
             console.log(data);
             var jsontmp;	
@@ -100,10 +96,9 @@ class ProjectPage extends Component {
 				jsontmp = {
 
                     key :0,
-						id: data[i].Project_id,
-						ProjectName: data[i].Project_Name,
-						Sponsor: data[i].Sponsor,
-						Active: data[i].Active
+					id: data[i].id,
+					FirstName: data[i].FirstName,
+					LastName: data[i].LastName,
 						
 				}
 				tmp.push(jsontmp);
@@ -113,10 +108,10 @@ class ProjectPage extends Component {
       })
     
     var adata = {
-        table: "StudentContributor"
+        Project_id: this.state.projectID
     }
 
-    fetch(`/demonstrate`, {
+    fetch(`/showProjectAdvisor`, {
         method: 'Post',
         body: JSON.stringify(adata),
         headers:{
@@ -125,7 +120,8 @@ class ProjectPage extends Component {
           'Access-Control-Allow-Methods':'POST, GET',
           "Content-Type": "application/json"
         }
-      }).then(res => res.json())
+      })
+    .then(res => res.json())
       .then(data=>{
             console.log(data);
             var jsontmp;	
@@ -134,7 +130,9 @@ class ProjectPage extends Component {
 				data[i]["key"] = 0;
 				jsontmp = {
                     key :0,
-                    id: data[i].Project_id,
+                    id: data[i].id,
+                    FirstName: data[i].FirstName,
+					LastName: data[i].LastName,
 				}
 				tmp.push(jsontmp);
 			}
@@ -142,13 +140,11 @@ class ProjectPage extends Component {
 			this.setState({currentSource:tmp});
       })
 
-    this.handleProjectApply = this.handleProjectApply.bind(this);
-    this.handleProjectDelete = this.handleProjectDelete.bind(this);
-    this.handlecurrentProjectDetails = this.handlecurrentProjectDetails.bind(this);
-    this.handleenrolledProjectDetails = this.handleenrolledProjectDetails.bind(this);
+    this.handleStudentDelete = this.handleStudentDelete.bind(this);
+    this.handleAdvisorDelete = this.handleAdvisorDelete.bind(this);
   }
 
-  handleProjectApply(e){
+  handleStudentDelete(e){
     // var query = ""+ e.target.id + e.target.ProjectName;
     var id = e.target.id;
 	for (var i = 0; i<this.state.dataSource.length;i++){
@@ -156,10 +152,11 @@ class ProjectPage extends Component {
     }
     console.log(localStorage.user.split("\"")[3]);
     var data = {
-        id : localStorage.user.split("\"")[3],
-        Project_id: this.state.dataSource[id].id
+        id : this.state.dataSource[id].id,
+        Project_id : this.state.projectID
+
     }
-    fetch(`/studentApply`, {
+    fetch(`/deleteProjectStudent`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -169,51 +166,55 @@ class ProjectPage extends Component {
           "Content-Type": "application/json"
         }
       }).then(res => {
-          console.log(res)
-          var adata = {
-            table: "StudentContributor"
+          //
+        var sdata = {
+            Project_id: this.state.projectID
         }
-    
-          fetch(`/demonstrate`, {
+        fetch(`/showProjectStudent`, {
             method: 'Post',
-            body: JSON.stringify(adata),
+            body: JSON.stringify(sdata),
             headers:{
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Credentials':true,
-              'Access-Control-Allow-Methods':'POST, GET',
-              "Content-Type": "application/json"
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials':true,
+            'Access-Control-Allow-Methods':'POST, GET',
+            "Content-Type": "application/json"
             }
-          }).then(res => res.json())
-          .then(data=>{
+        })
+        .then(res => res.json())
+        .then(data=>{
                 console.log(data);
                 var jsontmp;	
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
                     jsontmp = {
+
                         key :0,
-                        id: data[i].Project_id,
+                        id: data[i].id,
+                        FirstName: data[i].FirstName,
+                        LastName: data[i].LastName,
+                            
                     }
                     tmp.push(jsontmp);
                 }
                 console.log(tmp);
-                this.setState({currentSource:tmp});
-          })
-      })
+                this.setState({dataSource:tmp});
+        })
+        })
   }
 
-  handleProjectDelete(e){
+  handleAdvisorDelete(e){
     var id = e.target.id;
 	for (var i = 0; i<this.state.currentSource.length;i++){
 		if(this.state.currentSource[i].id === id) id = i;
     }
-    console.log(localStorage.user.split("\"")[3]);
+    // console.log(localStorage.user.split("\"")[3]);
     var data = {
-        id : localStorage.user.split("\"")[3],
-        Project_id: this.state.currentSource[id].id
+        id : this.state.currentSource[id].id,
+        Project_id : this.state.projectID
     }
     console.log(data);
-    fetch(`/studentApplyDel`, {
+    fetch(`/deleteProjectAdvisor`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -223,68 +224,43 @@ class ProjectPage extends Component {
           "Content-Type": "application/json"
         }
       }).then(res => {
-        var adata = {
-            table: "StudentContributor"
+          var adata = {
+        Project_id: this.state.projectID
+    }
+
+    fetch(`/showProjectAdvisor`, {
+        method: 'Post',
+        body: JSON.stringify(adata),
+        headers:{
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials':true,
+          'Access-Control-Allow-Methods':'POST, GET',
+          "Content-Type": "application/json"
         }
-    
-          fetch(`/demonstrate`, {
-            method: 'Post',
-            body: JSON.stringify(adata),
-            headers:{
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Credentials':true,
-              'Access-Control-Allow-Methods':'POST, GET',
-              "Content-Type": "application/json"
-            }
-          }).then(res => res.json())
-          .then(data=>{
-                console.log(data);
-                var jsontmp;	
-                var tmp = [];
-                for(var i = 0; i < data.length; i ++){
-                    data[i]["key"] = 0;
-                    jsontmp = {
-                        key :0,
-                        id: data[i].Project_id,
-                    }
-                    tmp.push(jsontmp);
-                }
-                console.log(tmp);
-                this.setState({currentSource:tmp});
-          })
+      })
+    .then(res => res.json())
+      .then(data=>{
+            console.log(data);
+            var jsontmp;	
+		    var tmp = [];
+			for(var i = 0; i < data.length; i ++){
+				data[i]["key"] = 0;
+				jsontmp = {
+                    key :0,
+                    id: data[i].id,
+                    FirstName: data[i].FirstName,
+					LastName: data[i].LastName,
+				}
+				tmp.push(jsontmp);
+			}
+			console.log(tmp);
+			this.setState({currentSource:tmp});
+      })
+        
       })
 
       
   }
-
-  handlecurrentProjectDetails(e){
-    var id = e.target.id;
-	for (var i = 0; i<this.state.dataSource.length;i++){
-		if(this.state.dataSource[i].id === id) id = i;
-    }
-    console.log(this.state.dataSource[id]);
-    var project = {
-        id: this.state.dataSource[id].id
-    }
-    localStorage.setItem('project', JSON.stringify(project));
-    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetailRestrict" } };
-    this.props.history.push(from);
-  }
-
-  handleenrolledProjectDetails(e){
-    var id = e.target.id;
-	for (var i = 0; i<this.state.currentSource.length;i++){
-		if(this.state.currentSource[i].id === id) id = i;
-    }
-    console.log(this.state.currentSource[id]);
-    var project = {
-        id: this.state.currentSource[id].id
-    }
-    localStorage.setItem('project', JSON.stringify(project));
-    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetailRestrict" } };
-    this.props.history.push(from);
-  }
-
 
   render() {
     return (
@@ -301,12 +277,12 @@ class ProjectPage extends Component {
         {/* <div class="">
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
         </div> */}
-        current offered projects
+        Current Students
         
             <div class="container">
                 <Table columns = {this.state.scolumns} dataSource = {this.state.dataSource} />
             </div> 
-        current enrolled projects
+        Current Professors
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
             </div>   
@@ -320,4 +296,4 @@ class ProjectPage extends Component {
   }
 }
 
-export {ProjectPage }; 
+export {ProjectDetailRestrictedPage }; 
