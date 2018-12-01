@@ -8,23 +8,20 @@ import NavComp from '../components/NavComp/NavComp';
 import Button from 'antd/lib/button';
 import {Table, Divider} from 'antd';
 import 'antd/dist/antd.css';
+import Select from 'react-select';
 
 
 
 
-class ProjectPage extends Component {
+class ProjectAdvisorPage extends Component {
   constructor(props){
     super(props);
-    // console.log(localStorage.user.split("\""));
-    // console.log(localStorage.user.split("\"")[39]);
-    if(localStorage.user.split("\"")[39] === "Student")
-        console.log("HERE is Student!");
-    else{
-        const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
-        this.props.history.push(from);
-    }
+    console.log(localStorage.user.split("\""));
+    console.log(localStorage.user.split("\"")[3]);
+    // if(localStorage.user.split("\"")[39] === "Student")
+    //     console.log("HERE is Student!");
     global.constants = [[],[]];
-	  var data = global.constants[0];
+	var data = global.constants[0];
     this.state = {
         //current project
         scolumns: [{
@@ -45,10 +42,9 @@ class ProjectPage extends Component {
             dataIndex:"id",
             key:"id",
             render:(text,record,index)=>(<span>
-                    <Button id={text} type = "primary" onClick = {this.handlecurrentProjectDetails}>Details </Button>   
-                    <Button id={text} type = "danger" onClick = {this.handleProjectApply}> Apply </Button>
+                    <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button>
                     {/* <Divider type = "vertical"/> */}
-                    
+                    {/* <Button id={text} type = "danger" onClick = {this.sHandleDelete}> Delete </Button> */}
                     </span>
                     )}],
 
@@ -70,13 +66,24 @@ class ProjectPage extends Component {
                         dataIndex:"id",
                         key:"id",
                         render:(text,record,index)=>(<span>
-                                <Button id={text} type = "primary" onClick = {this.handleenrolledProjectDetails}> Details </Button>
+                                <Button id={text} type = "primary" onClick = {this.handleProjectDetails}> Details </Button>
                                 {/* <Divider type = "vertical"/> */}
                                 <Button id={text} type = "danger" onClick = {this.handleProjectDelete}> Delete </Button>
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+            selectOptions : [
+                { value: 'chocolate', label: 'Chocolate' },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' }
+              ],
+            selectedOption: null,
+            ProjectName: null,
+            Sponsor:null,
+            Active:0
+
+
     };
     var sdata = {
         table: "Project"
@@ -93,7 +100,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;
+            var jsontmp;	
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -104,16 +111,16 @@ class ProjectPage extends Component {
 						ProjectName: data[i].Project_Name,
 						Sponsor: data[i].Sponsor,
 						Active: data[i].Active
-
+						
 				}
 				tmp.push(jsontmp);
 			}
 			console.log(tmp);
 			this.setState({dataSource:tmp});
       })
-
+    
     var adata = {
-        table: "StudentContributor"
+        table: "AdvisorContributor"
     }
 
     fetch(`/demonstrate`, {
@@ -128,7 +135,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;
+            var jsontmp;	
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -144,8 +151,11 @@ class ProjectPage extends Component {
 
     this.handleProjectApply = this.handleProjectApply.bind(this);
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
-    this.handlecurrentProjectDetails = this.handlecurrentProjectDetails.bind(this);
-    this.handleenrolledProjectDetails = this.handleenrolledProjectDetails.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleAddProject = this.handleAddProject.bind(this);
+    this.handleProjectDetails = this.handleProjectDetails.bind(this);
   }
 
   handleProjectApply(e){
@@ -159,7 +169,7 @@ class ProjectPage extends Component {
         id : localStorage.user.split("\"")[3],
         Project_id: this.state.dataSource[id].id
     }
-    fetch(`/studentApply`, {
+    fetch(`/advisorApply`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -171,9 +181,9 @@ class ProjectPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "StudentContributor"
+            table: "AdvisorContributor"
         }
-
+    
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -186,7 +196,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;
+                var jsontmp;	
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -213,7 +223,7 @@ class ProjectPage extends Component {
         Project_id: this.state.currentSource[id].id
     }
     console.log(data);
-    fetch(`/studentApplyDel`, {
+    fetch(`/advisorApplyDel`, {
         method: 'Post',
         body: JSON.stringify(data),
         headers:{
@@ -224,9 +234,9 @@ class ProjectPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "StudentContributor"
+            table: "AdvisorContributor"
         }
-
+    
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -239,7 +249,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;
+                var jsontmp;	
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -254,24 +264,85 @@ class ProjectPage extends Component {
           })
       })
 
-
+      
   }
 
-  handlecurrentProjectDetails(e){
-    var id = e.target.id;
-	for (var i = 0; i<this.state.dataSource.length;i++){
-		if(this.state.dataSource[i].id === id) id = i;
-    }
-    console.log(this.state.dataSource[id]);
-    var project = {
-        id: this.state.dataSource[id].id
-    }
-    localStorage.setItem('project', JSON.stringify(project));
-    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetailRestrict" } };
-    this.props.history.push(from);
+  handleAdd(e){
+    var Layer1 = document.getElementById('Add');
+    Layer1.style.visibility = "visible";
   }
 
-  handleenrolledProjectDetails(e){
+  handleChange(e){
+    console.log(e.target.name);
+    if(e.target.name === "ProjectName")this.setState({ProjectName:e.target.value});
+    else if(e.target.name === "Sponsor")this.setState({Sponsor:e.target.value});
+    else if(e.target.name === "Active"){
+        var obj = document.getElementById(e.target.id);
+        var index = obj.selectedIndex;
+        var val = obj.options[index].value;
+        if(val === "Yes")this.setState({Active: 1});
+        else this.setState({Active:0});
+    }
+    // else if(e.target.name === "Area"){
+    //     this.setState({ selectedOption:e.target.value });
+    // }
+  }
+
+  handleSelectChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
+
+  handleAddProject(e){
+        console.log(this.state);
+        var data = {
+            Project_id : localStorage.user.split("\"")[3]+" " + this.state.ProjectName,
+            Project_Name: this.state.ProjectName,
+            Sponsor:this.state.Sponsor,
+            Active:this.state.Active
+        }
+
+        fetch(`/addProject`, {
+            method: 'Post',
+            body: JSON.stringify(data),
+            headers:{
+              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Credentials':true,
+              'Access-Control-Allow-Methods':'POST, GET',
+              "Content-Type": "application/json"
+            }
+        })
+        .then(
+            res=>{
+                console.log(res);
+                // const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
+                // this.props.history.push(from);
+                var data = {
+                    id : localStorage.user.split("\"")[3],
+                    Project_id:  localStorage.user.split("\"")[3]+" " + this.state.ProjectName
+                }
+                fetch(`/advisorApply`, {
+                    method: 'Post',
+                    body: JSON.stringify(data),
+                    headers:{
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Credentials':true,
+                      'Access-Control-Allow-Methods':'POST, GET',
+                      "Content-Type": "application/json"
+                    }
+                  })
+                  .then(
+                      res=>{
+                        console.log(res);
+                        const { from } = this.props.location.state || { from: { pathname: "/Project" } };
+                        this.props.history.push(from);
+                      }
+                  )
+            }
+        )
+  }
+
+  handleProjectDetails(e){
     var id = e.target.id;
 	for (var i = 0; i<this.state.currentSource.length;i++){
 		if(this.state.currentSource[i].id === id) id = i;
@@ -281,10 +352,9 @@ class ProjectPage extends Component {
         id: this.state.currentSource[id].id
     }
     localStorage.setItem('project', JSON.stringify(project));
-    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetailRestrict" } };
+    const { from } = this.props.location.state || { from: { pathname: "/ProjectDetail" } };
     this.props.history.push(from);
   }
-
 
   render() {
     return (
@@ -293,28 +363,60 @@ class ProjectPage extends Component {
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
             {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link> */}
         </head>
-
+       
         <NavComp></NavComp>
-
-
-
+        
+        
+        
         {/* <div class="">
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
         </div> */}
         current offered projects
-
+        
             <div class="container">
                 <Table columns = {this.state.scolumns} dataSource = {this.state.dataSource} />
-            </div>
+            </div> 
         current enrolled projects
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
-            </div>
+            <Button onClick = {this.handleAdd}>Add New Project</Button>
+            </div>  
 
+            {/* ADD part  */}
+            <div id = "Add" style = {{top: "100px", visibility: "hidden"}}>
+                <div>
+                ProjectName<text style={{color:"red"}}>(*required):
+                    <input type="text" class="form-control" name="ProjectName" onChange={this.handleChange} defaultValue=""></input> </text>
+                    
+                    Sponsor(<text style={{color:"red"}}>*required):
+                    <input type="text" class="form-control" name="Sponsor" defaultValue="" onChange={this.handleChange}></input> </text>
+                </div>
+    
+                <div>
+                    Are you seeking for students now?
+                <select class="custom-select" name = "Active" id = "Active" onChange={this.handleChange}>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                </div>
+
+                <div>
+                    Realated Area:
+                    <Select
+                        name = "Area"
+                        value={this.state.selectedOption}
+                        onChange={this.handleSelectChange}
+                        options={this.state.selectOptions}
+                    />
+                     <Button type = "primary" onClick = {this.handleAddProject}> Click to Add! </Button>
+                </div>
+            </div>
+        
+        
         {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
       </div>
     );
   }
 }
 
-export {ProjectPage };
+export {ProjectAdvisorPage }; 

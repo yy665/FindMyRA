@@ -17,6 +17,18 @@ var userRegister = require('./routes/registerUser');
 var studentApply = require('./routes/studentApply');
 var studentApplyDel = require('./routes/studentApplyDel');
 var visdata = require('./routes/visdata')
+var advisorApply = require('./routes/advisorApply');
+var advisorApplyDel = require('./routes/advisorApplyDel');
+var addProject = require('./routes/addProject');
+var showProjectStudent = require('./routes/showProjectStudent');
+var showProjectAdvisor = require('./routes/showProjectAdvisor');
+var deleteProjectStudent = require('./routes/deleteProjectStudent');
+var deleteProjectAdvisor = require('./routes/deleteProjectAdvisor');
+var queryStudent = require('./routes/queryStudent');
+var updateStudent = require('./routes/updateStudent');
+var queryAdvisor = require('./routes/queryAdvisor');
+var updateAdvisor = require('./routes/updateAdvisor');
+var queryProject = require('./routes/queryProject');
 
 var app = express();
 
@@ -49,6 +61,18 @@ app.use('/registerUser', userRegister);
 app.use('/studentApply', studentApply);
 app.use('/studentApplyDel', studentApplyDel);
 app.use('/visdata',visdata);
+app.use('/advisorApply', advisorApply);
+app.use('/advisorApplyDel', advisorApplyDel);
+app.use('/addProject', addProject);
+app.use('/showProjectStudent', showProjectStudent);
+app.use('/showProjectAdvisor', showProjectAdvisor);
+app.use('/deleteProjectStudent', deleteProjectStudent);
+app.use('/deleteProjectAdvisor', deleteProjectAdvisor);
+app.use('/queryStudent', queryStudent);
+app.use('/updateStudent', updateStudent);
+app.use('/queryAdvisor', queryAdvisor);
+app.use('/updateAdvisor', updateAdvisor);
+app.use('/queryProject',queryProject);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

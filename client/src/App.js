@@ -13,6 +13,12 @@ import Recommend from './components/PeopleComp/Recommendation.js';
 import { ProjectPage} from './ProjectPage';
 import {PersonalUpdate} from './PersonalUpdate';
 import {ResearcherPage} from './ResearcherPage/ResearcherPage.jsx';
+import {ProjectAdvisorPage} from './ProjectAdvisorPage';
+import {ProjectDetailPage} from './ProjectDetailPage';
+import {ProjectDetailRestrictedPage} from './ProjectDetailRestrictedPage';
+import {StudentSetting} from './StudentSetting';
+import {AdvisorSetting} from './AdvisorSetting';
+import {ProjectSearch} from './ProjectSearch';
 
 
 // const server = 'http://127.0.0.1:3001';
@@ -35,9 +41,15 @@ class App extends React.Component {
                             <Route path = "/Recommend" component = {Recommend}/>
                             <Route path = "/Visualize" component = {VisualizeComp}/>
                             <Route path = "/Project" component = {ProjectPage}/>
-                            <Route path = "/Setting" component = {PersonalUpdate}/>
+                            {/* <Route path = "/Setting" component = {PersonalUpdate}/> */}
                             <Route path = "/AdminUpdate" component = {UpdateComp}/>
                             <Route path = "/Researcher" component = {ResearcherPage}/>
+                            <Route path = "/ProjectAdd" component = {ProjectAdvisorPage}/>
+                            <Route path = "/ProjectDetail" component = {ProjectDetailPage}/>
+                            <Route path = "/ProjectDetailRestrict" component = {ProjectDetailRestrictedPage}/>
+                            <Route path = "/Setting" component = {StudentSetting}/>
+                            <Route path = "/AdvisorSetting" component = {AdvisorSetting}/>
+                            <Route path = "/ProjectSearch" component = {ProjectSearch}/>
                         </div>
                     </Router>
                 </div>

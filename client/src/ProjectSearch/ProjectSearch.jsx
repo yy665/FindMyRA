@@ -12,7 +12,7 @@ import 'antd/dist/antd.css';
 
 
 
-class ProjectPage extends Component {
+class ProjectSearch extends Component {
   constructor(props){
     super(props);
     // console.log(localStorage.user.split("\""));
@@ -24,7 +24,7 @@ class ProjectPage extends Component {
         this.props.history.push(from);
     }
     global.constants = [[],[]];
-	  var data = global.constants[0];
+	var data = global.constants[0];
     this.state = {
         //current project
         scolumns: [{
@@ -76,7 +76,17 @@ class ProjectPage extends Component {
                                 </span>
                                 )}],
             dataSource: data,
-            currentSource: data
+            currentSource: data,
+
+
+            //for searching
+            name: "",
+            sFirst: "",
+            sLast: "",
+            pFirst: "",
+            pLast: ""
+            
+
     };
     var sdata = {
         table: "Project"
@@ -93,7 +103,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;
+            var jsontmp;	
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -104,14 +114,14 @@ class ProjectPage extends Component {
 						ProjectName: data[i].Project_Name,
 						Sponsor: data[i].Sponsor,
 						Active: data[i].Active
-
+						
 				}
 				tmp.push(jsontmp);
 			}
 			console.log(tmp);
 			this.setState({dataSource:tmp});
       })
-
+    
     var adata = {
         table: "StudentContributor"
     }
@@ -128,7 +138,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;
+            var jsontmp;	
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -146,6 +156,66 @@ class ProjectPage extends Component {
     this.handleProjectDelete = this.handleProjectDelete.bind(this);
     this.handlecurrentProjectDetails = this.handlecurrentProjectDetails.bind(this);
     this.handleenrolledProjectDetails = this.handleenrolledProjectDetails.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
+  }
+
+  handleQuery(e){
+     if(e.target.id === "name")this.setState({name:e.target.value});
+     if(e.target.id === "pFirstName")this.setState({pFirst:e.target.value});
+     if(e.target.id === "pLastName")this.setState({pLast:e.target.value});
+     if(e.target.id === "sFirstName")this.setState({sFirst:e.target.value});
+     if(e.target.id === "sLastName")this.setState({sLast:e.target.value});
+
+
+     //search button
+    if(e.target.id === "search"){
+      var result = document.getElementById('result');
+      result.style.visibility = "visible";
+
+      var data = {
+        name: this.state.name,
+        sf: this.state.sFirst,
+        sl: this.state.sLast,
+        pf: this.state.pFirst,
+        pl: this.state.pLast
+      }
+
+
+      fetch(`/queryProject`, {
+        method: 'Post',
+        body: JSON.stringify(data),
+        headers:{
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials':true,
+          'Access-Control-Allow-Methods':'POST, GET',
+          "Content-Type": "application/json"
+        }
+        }).then(res => res.json()).then(
+        data => {
+
+          console.log(data); 
+          var jsontmp;  
+                var tmp = [];
+                for(var i = 0; i < data.length; i ++){
+                    data[i]["key"] = 0;
+                    jsontmp = {
+                        key :0,
+                        id: data[i].Project_id,
+                    }
+                    tmp.push(jsontmp);
+                }
+                console.log(tmp);
+                this.setState({dataSource:tmp});
+        }
+      );
+
+
+    }
+   
+
+    
+
+
   }
 
   handleProjectApply(e){
@@ -173,7 +243,7 @@ class ProjectPage extends Component {
           var adata = {
             table: "StudentContributor"
         }
-
+    
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -186,7 +256,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;
+                var jsontmp;	
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -226,7 +296,7 @@ class ProjectPage extends Component {
         var adata = {
             table: "StudentContributor"
         }
-
+    
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -239,7 +309,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;
+                var jsontmp;	
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -254,7 +324,7 @@ class ProjectPage extends Component {
           })
       })
 
-
+      
   }
 
   handlecurrentProjectDetails(e){
@@ -288,33 +358,74 @@ class ProjectPage extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <head>
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
             {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link> */}
         </head>
-
+       
         <NavComp></NavComp>
 
+        Please fill in any of the filters.<br />
+        <br/>
+        <div class="form-group row">
+          <div class = "col-md-5 mb-3">
+            <label for="projectQuery">Project Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Project1" onChange = {this.handleQuery}></input>
+          </div>
+        </div>
 
 
-        {/* <div class="">
-          <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
-        </div> */}
-        current offered projects
 
-            <div class="container">
+
+
+
+        <div class="form-group row">
+          <div class = "col-md-4 mb-3">
+          <label for="professorQuery">Professor First Name</label>
+            <input type="text" class="form-control" id="pFirstName" placeholder="Abdu" onChange = {this.handleQuery}></input>
+          </div>
+        
+        
+          <div class = "col-md-4 mb-3">
+          <label for="professorQuery">Professor Last Name</label>
+          <input type="text" class="form-control" id="pLastName" placeholder="Alawani" onChange = {this.handleQuery}></input>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+           <div class = "col-md-4 mb-3">
+          <label for="studentQuery">Student First Name</label>
+          <input type="text" class="form-control" id="sFirstName" placeholder="Dong" onChange = {this.handleQuery}></input>
+          </div>
+        
+
+           <div class = "col-md-4 mb-3">
+          <label for="studentQuery">Student Last Name</label>
+            <input type="text" class="form-control" id="sLastName" placeholder="Liu" onChange = {this.handleQuery}></input>
+          </div>
+        </div>
+
+
+        <div>
+        <Button id="search" type = "primary" onClick = {this.handleQuery}> Search </Button>
+        </div>
+
+
+        
+            <div class="container" id = "result" style = {{visibility: "hidden"}} >
                 <Table columns = {this.state.scolumns} dataSource = {this.state.dataSource} />
-            </div>
-        current enrolled projects
-            <div>
-            <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
-            </div>
+            </div> 
+        
 
+            
+        
+        
         {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
       </div>
     );
   }
 }
 
-export {ProjectPage };
+export {ProjectSearch }; 
