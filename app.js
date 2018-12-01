@@ -16,6 +16,7 @@ var userLogin = require('./routes/login');
 var userRegister = require('./routes/registerUser');
 var studentApply = require('./routes/studentApply');
 var studentApplyDel = require('./routes/studentApplyDel');
+var visdata = require('./routes/visdata')
 var advisorApply = require('./routes/advisorApply');
 var advisorApplyDel = require('./routes/advisorApplyDel');
 var addProject = require('./routes/addProject');
@@ -28,7 +29,6 @@ var updateStudent = require('./routes/updateStudent');
 var queryAdvisor = require('./routes/queryAdvisor');
 var updateAdvisor = require('./routes/updateAdvisor');
 var queryProject = require('./routes/queryProject');
-
 
 var app = express();
 
@@ -60,6 +60,7 @@ app.use('/login', userLogin);
 app.use('/registerUser', userRegister);
 app.use('/studentApply', studentApply);
 app.use('/studentApplyDel', studentApplyDel);
+app.use('/visdata',visdata);
 app.use('/advisorApply', advisorApply);
 app.use('/advisorApplyDel', advisorApplyDel);
 app.use('/addProject', addProject);

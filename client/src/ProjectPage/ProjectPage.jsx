@@ -24,7 +24,7 @@ class ProjectPage extends Component {
         this.props.history.push(from);
     }
     global.constants = [[],[]];
-	var data = global.constants[0];
+	  var data = global.constants[0];
     this.state = {
         //current project
         scolumns: [{
@@ -93,7 +93,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;	
+            var jsontmp;
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -104,14 +104,14 @@ class ProjectPage extends Component {
 						ProjectName: data[i].Project_Name,
 						Sponsor: data[i].Sponsor,
 						Active: data[i].Active
-						
+
 				}
 				tmp.push(jsontmp);
 			}
 			console.log(tmp);
 			this.setState({dataSource:tmp});
       })
-    
+
     var adata = {
         table: "StudentContributor"
     }
@@ -128,7 +128,7 @@ class ProjectPage extends Component {
       }).then(res => res.json())
       .then(data=>{
             console.log(data);
-            var jsontmp;	
+            var jsontmp;
 		    var tmp = [];
 			for(var i = 0; i < data.length; i ++){
 				data[i]["key"] = 0;
@@ -173,7 +173,7 @@ class ProjectPage extends Component {
           var adata = {
             table: "StudentContributor"
         }
-    
+
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -186,7 +186,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;	
+                var jsontmp;
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -226,7 +226,7 @@ class ProjectPage extends Component {
         var adata = {
             table: "StudentContributor"
         }
-    
+
           fetch(`/demonstrate`, {
             method: 'Post',
             body: JSON.stringify(adata),
@@ -239,7 +239,7 @@ class ProjectPage extends Component {
           }).then(res => res.json())
           .then(data=>{
                 console.log(data);
-                var jsontmp;	
+                var jsontmp;
                 var tmp = [];
                 for(var i = 0; i < data.length; i ++){
                     data[i]["key"] = 0;
@@ -254,7 +254,7 @@ class ProjectPage extends Component {
           })
       })
 
-      
+
   }
 
   handlecurrentProjectDetails(e){
@@ -293,31 +293,28 @@ class ProjectPage extends Component {
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.css" media="screen"></link>
             {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link> */}
         </head>
-       
+
         <NavComp></NavComp>
-        
-        
-        
+
+
+
         {/* <div class="">
           <Table columns = {this.state.scolumns} dataSource = {this.state.sdataSource} />
         </div> */}
         current offered projects
-        
+
             <div class="container">
                 <Table columns = {this.state.scolumns} dataSource = {this.state.dataSource} />
-            </div> 
+            </div>
         current enrolled projects
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
-            </div>   
+            </div>
 
-            
-        
-        
         {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
       </div>
     );
   }
 }
 
-export {ProjectPage }; 
+export {ProjectPage };

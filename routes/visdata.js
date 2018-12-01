@@ -13,11 +13,13 @@ connection.connect();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'SELECT * FROM ' + req.body.table;
+  var sql = 'SELECT * FROM ' + req.body.table + ' ' + req.body.constraint + ' ' + '"' + req.body.rid + '"' +' ';
   console.log(sql);
   connection.query(sql, function(error, results, fields){
     if (error) throw error;
     else{
+      console.log(res);
+
       res.json(results);
     }
   })
