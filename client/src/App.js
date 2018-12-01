@@ -12,7 +12,7 @@ import VisualizeComp from './components/PeopleComp/VisualizeComp.js';
 import Recommend from './components/PeopleComp/Recommendation.js';
 import { ProjectPage} from './ProjectPage';
 import {PersonalUpdate} from './PersonalUpdate';
-
+import {ResearcherPage} from './ResearcherPage/ResearcherPage.jsx';
 
 
 // const server = 'http://127.0.0.1:3001';
@@ -37,6 +37,7 @@ class App extends React.Component {
                             <Route path = "/Project" component = {ProjectPage}/>
                             <Route path = "/Setting" component = {PersonalUpdate}/>
                             <Route path = "/AdminUpdate" component = {UpdateComp}/>
+                            <Route path = "/Researcher" component = {ResearcherPage}/>
                         </div>
                     </Router>
                 </div>
