@@ -26,7 +26,7 @@ class NavComp extends React.Component {
                 <a class="nav-link" href="/ProjectSearch">Search</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="/">Link</a>
+                <a class="nav-link" href="/Researcher">Visualization</a>
                 </li>
                 {/* <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">Lumen <span class="caret"></span></a>

@@ -50,9 +50,25 @@ class HomePage extends Component {
       <div className="App">
       <NavComp></NavComp>
 
+      <div class="jumbotron">
+          <h1 class="display-4">Welcome to FindMyRA!</h1>
+          <p class="lead">Find out research opportunities and perfect projects thorough the click!</p>
+          <hr class="my-4"></hr>
+          <p>We let you add any project or person into the database by yourself. You can also search for researches, students and projects. One click to apply for the projects you're interested in. Get connected now! </p>
+        </div>
+
+        <div class="card text-white bg-dark mb-3" >
+          <div class="card-header">Leave Us Comments</div>
+          <div class="card-body">
+            {/* <h5 class="card-title">Email: dongl3@illinois.edu</h5> */}
+            <h5 class="card-title">Email: jianing2@illinois.edu</h5>
+            <p class="card-text">Feel free to contact us and let us know your thoughts!</p>
+          </div>
+        </div>
+
       
       
-        <div>
+        {/* <div>
         <Link to = "/"> Home </Link>
         </div>
 
@@ -71,7 +87,7 @@ class HomePage extends Component {
 
         <div>
         <Link to = "/Visualize"> Visualize FIND RA </Link>
-        </div>
+        </div> */}
 
         {/* <p>
           <Link to="/login">Logout</Link>

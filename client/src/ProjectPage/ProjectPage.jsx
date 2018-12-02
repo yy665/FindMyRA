@@ -15,7 +15,7 @@ import 'antd/dist/antd.css';
 class ProjectPage extends Component {
   constructor(props){
     super(props);
-    // console.log(localStorage.user.split("\""));
+    // console.log(localStorage.user.split("\"")[3]);
     // console.log(localStorage.user.split("\"")[39]);
     if(localStorage.user.split("\"")[39] === "Student")
         console.log("HERE is Student!");
@@ -113,7 +113,8 @@ class ProjectPage extends Component {
       })
 
     var adata = {
-        table: "StudentContributor"
+        table: "StudentContributor",
+        id: localStorage.user.split("\"")[3]
     }
 
     fetch(`/demonstrate`, {
@@ -171,7 +172,8 @@ class ProjectPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "StudentContributor"
+            table: "StudentContributor",
+            id: localStorage.user.split("\"")[3]
         }
 
           fetch(`/demonstrate`, {
@@ -224,7 +226,8 @@ class ProjectPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "StudentContributor"
+            table: "StudentContributor",
+            id: localStorage.user.split("\"")[3]
         }
 
           fetch(`/demonstrate`, {

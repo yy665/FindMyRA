@@ -120,7 +120,8 @@ class ProjectAdvisorPage extends Component {
       })
     
     var adata = {
-        table: "AdvisorContributor"
+        table: "AdvisorContributor",
+        id: localStorage.user.split("\"")[3]
     }
 
     fetch(`/demonstrate`, {
@@ -181,7 +182,8 @@ class ProjectAdvisorPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "AdvisorContributor"
+            table: "AdvisorContributor",
+            id: localStorage.user.split("\"")[3]
         }
     
           fetch(`/demonstrate`, {
@@ -234,7 +236,8 @@ class ProjectAdvisorPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "AdvisorContributor"
+            table: "AdvisorContributor",
+            id: localStorage.user.split("\"")[3]
         }
     
           fetch(`/demonstrate`, {
