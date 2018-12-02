@@ -1,0 +1,5 @@
+numpy
+pandas
+pymysql
+sklearn
+json
