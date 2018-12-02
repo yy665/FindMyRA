@@ -101,8 +101,8 @@ app.use(function(err, req, res, next) {
 //   // console.log(req.body.age);
 // });
 
-const port = process.env.PORT || 3001
-app.listen(port, ()=> {
+const port = process.env.PORT || 50000
+app.listen(50000, ()=> {
   console.log(`server running @${port}`)
 })
 

@@ -4,9 +4,9 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
+  user: 'lechang3_root',
   password: 'password',
-  database: 'test'
+  database: 'lechang3_test'
 })
 
 connection.connect();
@@ -14,3 +14,5 @@ connection.connect();
     if (error) throw error;
     console.log(results)
   })
+  
+  connection.end();

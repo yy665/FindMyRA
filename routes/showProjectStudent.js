@@ -4,9 +4,9 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'test'
+  user: 'lechang3_root1',
+  password: 'qwertyuiopas',
+  database: 'lechang3_test'
 })
 
 connection.connect();
@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
   })
   
 });
-
+connection.end();
 module.exports = router;
 
 
