@@ -19,6 +19,7 @@ import {ProjectDetailRestrictedPage} from './ProjectDetailRestrictedPage';
 import {StudentSetting} from './StudentSetting';
 import {AdvisorSetting} from './AdvisorSetting';
 import {ProjectSearch} from './ProjectSearch';
+import {PeerSearch} from './PeerSearch';
 
 
 // const server = 'http://127.0.0.1:3001';
@@ -50,6 +51,7 @@ class App extends React.Component {
                             <Route path = "/Setting" component = {StudentSetting}/>
                             <Route path = "/AdvisorSetting" component = {AdvisorSetting}/>
                             <Route path = "/ProjectSearch" component = {ProjectSearch}/>
+                            <Route path = "/PeerSearch" component = {PeerSearch}/>
                         </div>
                     </Router>
                 </div>
