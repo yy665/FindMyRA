@@ -13,10 +13,48 @@ import 'antd/dist/antd.css';
 class PeerSearch extends Component {
   constructor(props){
     super(props);
-
+    
     this.data = require('./data.json')[localStorage.user.split("\"")[3]];
-    this.data = JSON.stringify(this.data);
+    //this.data = JSON.stringify(this.data);
     console.log(this.data);
+    
+    if(this.data!=null){
+    var jsontmp;
+		    var tmp = [];
+			for(var i = 0; i < this.data.length; i ++){
+				jsontmp = {
+
+                    key :0,
+						id: this.data[i],
+						
+
+				}
+				tmp.push(jsontmp);
+			}
+	this.data=tmp;
+    }
+    else{
+        var jsontmp = {
+            key:0,
+            id: "Unfortunately no one matches your interest right now."
+        }
+        this.data = [];
+        this.data.push(jsontmp);
+    }
+    
+    this.state = {
+        //current project
+        columns: [{
+            title:"ID",
+            dataIndex: "id",
+            key: "id",
+            }
+            ],
+       dataSource: this.data,
+            
+    };
+
+    
   }
 
   render() {
@@ -31,7 +69,10 @@ class PeerSearch extends Component {
 
       Hi, {localStorage.user.split("\"")[3]}.
 
-      Peers that match your research interests most are: {this.data}
+      Peers that match your research interests most are: 
+      <div class="container">
+                <Table columns = {this.state.columns} dataSource = {this.state.dataSource} />
+            </div>
       <br/>
       This PeerSearch system uses kMedoids clustering. Credit:
       Bauckhage C. Numpy/scipy Recipes for Data Science: k-Medoids Clustering[R].

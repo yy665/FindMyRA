@@ -4,26 +4,28 @@ var mysql = require('mysql');
 
 var connection = mysql.createConnection({
   host: 'localhost',
-  user: 'lechang3_root',
-  password: 'password',
+  user: 'lechang3_root2',
+  password: 'qwertyuiopas',
   database: 'lechang3_test'
 })
 
 connection.connect();
 
+
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'SELECT * FROM ' + req.body.table + ' ' + req.body.constraint + ' ' + '"' + req.body.rid + '"' +' ';
+  var sql = 'INSERT INTO ProjectRelatedArea VALUES(\"' + req.body.Project_id + "\", \"" + req.body.Area_id + "\")";
   console.log(sql);
   connection.query(sql, function(error, results, fields){
-    if (error) throw error;
+      
+    if (error){
+        console.log(error);
+    }
     else{
-      console.log(res);
-
       res.json(results);
     }
   })
-
+  
 });
 
 module.exports = router;

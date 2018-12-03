@@ -17,12 +17,7 @@ class ProjectSearch extends Component {
     super(props);
     // console.log(localStorage.user.split("\""));
     // console.log(localStorage.user.split("\"")[39]);
-    if(localStorage.user.split("\"")[39] === "Student")
-        console.log("HERE is Student!");
-    else{
-        const { from } = this.props.location.state || { from: { pathname: "/ProjectAdd" } };
-        this.props.history.push(from);
-    }
+    
     global.constants = [[],[]];
 	var data = global.constants[0];
     this.state = {
@@ -45,8 +40,8 @@ class ProjectSearch extends Component {
             dataIndex:"id",
             key:"id",
             render:(text,record,index)=>(<span>
-                    <Button id={text} type = "primary" onClick = {this.handlecurrentProjectDetails}>Details </Button>   
-                    <Button id={text} type = "danger" onClick = {this.handleProjectApply}> Apply </Button>
+                    <Button id={text} type = "default" onClick = {this.handlecurrentProjectDetails}>Details </Button>   
+                    <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button>
                     {/* <Divider type = "vertical"/> */}
                     
                     </span>
@@ -70,7 +65,7 @@ class ProjectSearch extends Component {
                         dataIndex:"id",
                         key:"id",
                         render:(text,record,index)=>(<span>
-                                <Button id={text} type = "primary" onClick = {this.handleenrolledProjectDetails}> Details </Button>
+                                <Button id={text} type = "default" onClick = {this.handleenrolledProjectDetails}> Details </Button>
                                 {/* <Divider type = "vertical"/> */}
                                 <Button id={text} type = "danger" onClick = {this.handleProjectDelete}> Delete </Button>
                                 </span>
@@ -81,6 +76,7 @@ class ProjectSearch extends Component {
 
             //for searching
             name: "",
+            area:"",
             sFirst: "",
             sLast: "",
             pFirst: "",
@@ -145,6 +141,7 @@ class ProjectSearch extends Component {
 				jsontmp = {
                     key :0,
                     id: data[i].Project_id,
+                    
 				}
 				tmp.push(jsontmp);
 			}
@@ -165,6 +162,8 @@ class ProjectSearch extends Component {
      if(e.target.id === "pLastName")this.setState({pLast:e.target.value});
      if(e.target.id === "sFirstName")this.setState({sFirst:e.target.value});
      if(e.target.id === "sLastName")this.setState({sLast:e.target.value});
+     if(e.target.id === "area")this.setState({area:e.target.value});
+     
 
 
      //search button
@@ -174,6 +173,7 @@ class ProjectSearch extends Component {
 
       var data = {
         name: this.state.name,
+        area: this.state.area,
         sf: this.state.sFirst,
         sl: this.state.sLast,
         pf: this.state.pFirst,
@@ -201,6 +201,9 @@ class ProjectSearch extends Component {
                     jsontmp = {
                         key :0,
                         id: data[i].Project_id,
+                        ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
                     }
                     tmp.push(jsontmp);
                 }
@@ -372,6 +375,19 @@ class ProjectSearch extends Component {
           <div class = "col-md-5 mb-3">
             <label for="projectQuery">Project Name</label>
             <input type="text" class="form-control" id="name" placeholder="Project1" onChange = {this.handleQuery}></input>
+          </div>
+          
+          <div class = "col-md-5 mb-3">
+            <label for="projectQuery">Project Area</label>
+                <select onChange = {this.handleQuery} class="form-control" id="area">
+                <option></option>
+                <option>BI</option>
+                <option>CB</option>
+                <option>DB</option>
+                <option>DS</option>
+                <option>S</option>
+                <option>SDV</option>
+            </select>
           </div>
         </div>
 

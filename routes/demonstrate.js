@@ -14,7 +14,7 @@ connection.connect();
 /* GET users listing. */
 router.post('/', function(req, res, next) {
   var sql = 'SELECT * FROM ' + req.body.table;
-  if(req.body.table === "StudentContributor" || req.body.table === "AdvisorContributor")
+  if(req.body.table === "StudentContributor NATURAL JOIN Project" || req.body.table === "AdvisorContributor NATURAL JOIN Project"||req.body.table==="StudentContributor"||req.body.table==="AdvisorContributor")
     sql = sql + ' WHERE id=\"' + req.body.id + "\"";
   else if(req.body.table === "Project")
     sql = sql + ' WHERE Active=1';
@@ -27,7 +27,6 @@ router.post('/', function(req, res, next) {
     }
   })
   
-  connection.end();
 
 });
 

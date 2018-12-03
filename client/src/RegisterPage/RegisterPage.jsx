@@ -237,7 +237,8 @@ class RegisterPage extends React.Component {
     
                 <div>
                     Which group are you interested now?
-                    <input type="text"  class="form-control" name="group" defaultValue="E.g: Team15" onChange={this.handleChange}></input>
+                    <input type="text"  class="form-control" name="group" placeHolder="DB" onChange={this.handleChange}></input>
+                    <small class="form-text text-muted">Current groups: BS for Bioinfomatics, CB for Cloud, DB for Database, DS for Data Science, S for Search, SDV for Visualization</small>
                 </div>
     
                 <div>

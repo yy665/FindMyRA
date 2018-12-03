@@ -6,14 +6,15 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'lechang3_root',
   password: 'password',
-  database: 'lechang3_test'
+  database: 'lechang3_test',
+  multipleStatements: true
 })
 
 connection.connect();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'INSERT INTO StudentContributor VALUES(\"' + req.body.id + "\", \"" + req.body.Project_id + "\")";
+  var sql = 'INSERT INTO StudentContributor VALUES(\"' + req.body.id + "\", \"" + req.body.Project_id + "\"); " + 'INSERT INTO Contributor VALUES(\"' + req.body.id + "\", \"" + req.body.Project_id + "\");";
   console.log(sql);
   connection.query(sql, function(error, results, fields){
     if (error){
@@ -25,5 +26,6 @@ router.post('/', function(req, res, next) {
   })
   
 });
-connection.end();
+
+
 module.exports = router;

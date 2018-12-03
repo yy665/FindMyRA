@@ -21,7 +21,7 @@ router.post('/', function(req, res, next) {
     if (error){
       var errormessage = {"Failure": "True"};
       res.json(errormessage);
-      // console.log(error);
+      //console.log(error);
     }
     else{
     //   var reminder = { "Success" : "True"};
@@ -32,6 +32,5 @@ router.post('/', function(req, res, next) {
   })
 });
 
-connection.end();
 
 module.exports = router;

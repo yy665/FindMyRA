@@ -74,14 +74,17 @@ class ProjectAdvisorPage extends Component {
             dataSource: data,
             currentSource: data,
             selectOptions : [
-                { value: 'chocolate', label: 'Chocolate' },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' }
+                { value: 'DB', label: 'DataBase' },
+                { value: 'CB', label: 'Cloud-Based' },
+                { value: 'DS', label: 'Data Science' },
+                { value: 'SDV', label: 'Visualization' },
+                { value: 'S', label: 'Search' },
+                { value: 'BI', label: 'Bioinformatics' }
               ],
             selectedOption: null,
             ProjectName: null,
             Sponsor:null,
-            Active:0
+            Active:1
 
 
     };
@@ -120,7 +123,7 @@ class ProjectAdvisorPage extends Component {
       })
     
     var adata = {
-        table: "AdvisorContributor",
+        table: "AdvisorContributor NATURAL JOIN Project",
         id: localStorage.user.split("\"")[3]
     }
 
@@ -143,6 +146,9 @@ class ProjectAdvisorPage extends Component {
 				jsontmp = {
                     key :0,
                     id: data[i].Project_id,
+                    ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
 				}
 				tmp.push(jsontmp);
 			}
@@ -182,7 +188,7 @@ class ProjectAdvisorPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "AdvisorContributor",
+            table: "AdvisorContributor NATURAL JOIN Project",
             id: localStorage.user.split("\"")[3]
         }
     
@@ -205,6 +211,9 @@ class ProjectAdvisorPage extends Component {
                     jsontmp = {
                         key :0,
                         id: data[i].Project_id,
+                        ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
                     }
                     tmp.push(jsontmp);
                 }
@@ -236,7 +245,7 @@ class ProjectAdvisorPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "AdvisorContributor",
+            table: "AdvisorContributor NATURAL JOIN Project",
             id: localStorage.user.split("\"")[3]
         }
     
@@ -259,6 +268,9 @@ class ProjectAdvisorPage extends Component {
                     jsontmp = {
                         key :0,
                         id: data[i].Project_id,
+                        ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
                     }
                     tmp.push(jsontmp);
                 }
@@ -291,9 +303,8 @@ class ProjectAdvisorPage extends Component {
     // }
   }
 
-  handleSelectChange = (selectedOption) => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+  handleSelectChange(e){
+    this.setState({selectedOption:e.value});
   }
 
   handleAddProject(e){
@@ -302,7 +313,9 @@ class ProjectAdvisorPage extends Component {
             Project_id : localStorage.user.split("\"")[3]+" " + this.state.ProjectName,
             Project_Name: this.state.ProjectName,
             Sponsor:this.state.Sponsor,
-            Active:this.state.Active
+            Active:this.state.Active,
+            Area_id:this.state.selectedOption,
+            id:localStorage.user.split("\"")[3]
         }
 
         fetch(`/addProject`, {
@@ -404,7 +417,7 @@ class ProjectAdvisorPage extends Component {
                 </div>
 
                 <div>
-                    Realated Area:
+                    Related Area:
                     <Select
                         name = "Area"
                         value={this.state.selectedOption}

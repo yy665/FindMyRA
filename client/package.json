@@ -10,6 +10,7 @@
     "child_process": "^1.0.2",
     "d3": "^5.7.0",
     "express": "^4.16.4",
+    "json": "^9.0.6",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.0",
@@ -23,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:50001",
+  "proxy": "http://localhost:50000",
   "eslintConfig": {
     "extends": "react-app"
   },

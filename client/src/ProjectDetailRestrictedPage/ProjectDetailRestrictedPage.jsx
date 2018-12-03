@@ -142,6 +142,7 @@ class ProjectDetailRestrictedPage extends Component {
 
     this.handleStudentDelete = this.handleStudentDelete.bind(this);
     this.handleAdvisorDelete = this.handleAdvisorDelete.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
 
   handleStudentDelete(e){
@@ -261,6 +262,11 @@ class ProjectDetailRestrictedPage extends Component {
 
       
   }
+  
+  handleBack(e){
+      const { from } = this.props.location.state || { from: { pathname: "/Project" } };
+        this.props.history.push(from);
+  }
 
   render() {
     return (
@@ -289,7 +295,7 @@ class ProjectDetailRestrictedPage extends Component {
 
             
         
-        
+        <Button id="back" type = "default" onClick = {this.handleBack} > Back </Button>
         {/* <button onClick={this.demonstrate}>Demonstrate</button> */}
       </div>
     );

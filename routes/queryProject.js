@@ -15,12 +15,13 @@ connection.connect();
 router.post('/', function(req, res, next) {
   var sql = '';
   if(req.body.sf!= "" || req.body.sl!=""){
-    sql = sql + '(SELECT Project_id, Project_Name, Sponsor, Active FROM project NATURAL JOIN (studentcontributor NATURAL JOIN student) WHERE ';
+    sql = sql + '(SELECT Project_id, Project_Name, Sponsor, Active FROM (Project NATURAL JOIN ProjectRelatedArea) NATURAL JOIN (StudentContributor NATURAL JOIN Student) WHERE ';
     if(req.body.sf!="")sql = sql + "FirstName=\"" + req.body.sf + "\" ";
     if(req.body.sl!="" && req.body.sf!="")sql = sql + " AND " + "LastName=\"" + req.body.sl + "\"";
     if(req.body.sl!="" && req.body.sf==="") sql = sql + "LastName=\"" + req.body.sl + "\"";
 
     if(req.body.name!="")sql = sql + " AND "+  "Project_Name=\"" + req.body.name + "\"";
+    if(req.body.area!="")sql = sql + " AND "+  "Area_id=\"" + req.body.area + "\"";
 
     sql = sql +" )";
 
@@ -31,22 +32,24 @@ router.post('/', function(req, res, next) {
 
 
   if(req.body.pf!= "" || req.body.pl!=""){
-    if(req.body.sf!= "" || req.body.sl!="")sql = sql + '(SELECT Project_Name FROM project NATURAL JOIN (advisorcontributor NATURAL JOIN advisor) WHERE ';
-    else sql = sql + '(SELECT Project_id, Project_Name, Sponsor, Active FROM project NATURAL JOIN (advisorcontributor NATURAL JOIN advisor) WHERE ';
+    if(req.body.sf!= "" || req.body.sl!="")sql = sql + '(SELECT Project_Name FROM (Project NATURAL JOIN ProjectRelatedArea) NATURAL JOIN (AdvisorContributor NATURAL JOIN Advisor) WHERE ';
+    else sql = sql + '(SELECT Project_id, Project_Name, Sponsor, Active FROM (Project NATURAL JOIN ProjectRelatedArea) NATURAL JOIN (AdvisorContributor NATURAL JOIN Advisor) WHERE ';
 
     if(req.body.pf!="")sql = sql + "FirstName=\"" + req.body.pf + "\" ";
     if(req.body.pl!="" && req.body.pf!="")sql = sql + " AND " + "LastName=\"" + req.body.pl + "\"";
     if(req.body.pl!="" && req.body.pf==="") sql = sql + "LastName=\"" + req.body.pl + "\"";
 
     if(req.body.name!="")sql = sql + " AND " + "Project_Name=\"" + req.body.name + "\"";
+    if(req.body.area!="")sql = sql + " AND "+  "Area_id=\"" + req.body.area + "\"";
 
 
     sql =sql+ ")";
   }
 
   if(req.body.sf === "" && req.body.sl ==="" && req.body.pf === "" && req.body.pl ===""){
-    if(req.body.name==="")sql = "SELECT * FROM project";
-    else sql = 'SELECT * FROM project WHERE Project_Name = \"' + req.body.name + '\"';
+      sql = "SELECT * FROM Project";
+    if(req.body.name!="" && req.body.area!="")sql = 'SELECT Project_id, Project_Name, Sponsor, Active FROM (Project NATURAL JOIN ProjectRelatedArea) WHERE Project_Name = \"' + req.body.name + '\"' + " AND "+  "Area_id=\"" + req.body.area + "\"";
+    else if(req.body.area!="")sql = 'SELECT Project_id, Project_Name, Sponsor, Active FROM (Project NATURAL JOIN ProjectRelatedArea) WHERE Area_id=\"' + req.body.area + "\"";
   }
 
   console.log(sql);
@@ -60,6 +63,5 @@ router.post('/', function(req, res, next) {
   })
 });
 
-connection.end();
 
 module.exports = router;

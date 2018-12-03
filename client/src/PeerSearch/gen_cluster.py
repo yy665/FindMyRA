@@ -11,7 +11,7 @@ n_clusters = Number of Clusters
 '''
 n_clusters = 2
 
-connection = pymysql.connect("localhost", "root", "password", "test")
+connection = pymysql.connect("localhost", "lechang3_root2", "qwertyuiopas", "lechang3_test")
 
 try:
     with connection.cursor() as cursor:

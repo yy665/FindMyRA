@@ -29,6 +29,8 @@ var updateStudent = require('./routes/updateStudent');
 var queryAdvisor = require('./routes/queryAdvisor');
 var updateAdvisor = require('./routes/updateAdvisor');
 var queryProject = require('./routes/queryProject');
+var addProjectArea = require('./routes/addProjectArea');
+var addResearcherArea = require('./routes/addResearcherArea');
 
 var app = express();
 
@@ -73,6 +75,8 @@ app.use('/updateStudent', updateStudent);
 app.use('/queryAdvisor', queryAdvisor);
 app.use('/updateAdvisor', updateAdvisor);
 app.use('/queryProject',queryProject);
+app.use('/addProjectArea',addProjectArea);
+app.use('/addResearcherArea',addResearcherArea);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

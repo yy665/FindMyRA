@@ -39,6 +39,18 @@ class ProjectDetailPage extends Component {
             {title:"Last Name",
             dataIndex:"LastName",
             key:"LastName"},
+            {title:"Degree",
+            dataIndex:"Degree",
+            key:"Degree"},
+            {title:"GPA",
+            dataIndex:"GPA",
+            key:"GPA"},
+            {title:"SchoolYear",
+            dataIndex:"SchoolYear",
+            key:"SchoolYear"},
+            {title:"Advisor",
+            dataIndex:"Advisor",
+            key:"Advisor"},
             {title:"Action",
             dataIndex:"id",
             key:"id",
@@ -99,6 +111,10 @@ class ProjectDetailPage extends Component {
 					id: data[i].id,
 					FirstName: data[i].FirstName,
 					LastName: data[i].LastName,
+					GPA: data[i].GPA,
+					Advisor: data[i].Advisor,
+					Degree: data[i].Degree,
+					SchoolYear: data[i].SchoolYear
 						
 				}
 				tmp.push(jsontmp);
@@ -142,6 +158,7 @@ class ProjectDetailPage extends Component {
 
     this.handleStudentDelete = this.handleStudentDelete.bind(this);
     this.handleAdvisorDelete = this.handleAdvisorDelete.bind(this);
+    this.handleBack = this.handleBack.bind(this);
   }
 
   handleStudentDelete(e){
@@ -261,6 +278,11 @@ class ProjectDetailPage extends Component {
 
       
   }
+  
+  handleBack(e){
+      const { from } = this.props.location.state || { from: { pathname: "/Project" } };
+        this.props.history.push(from);
+  }
 
   render() {
     return (
@@ -286,7 +308,7 @@ class ProjectDetailPage extends Component {
             <div>
             <Table columns = {this.state.acolumns} dataSource = {this.state.currentSource} />
             </div>   
-
+        <Button id="back" type = "default" onClick = {this.handleBack} > Back </Button>
             
         
         

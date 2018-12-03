@@ -6,7 +6,8 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'lechang3_root1',
   password: 'qwertyuiopas',
-  database: 'lechang3_test'
+  database: 'lechang3_test',
+  multipleStatements: true
 })
 
 connection.connect();
@@ -14,7 +15,8 @@ connection.connect();
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
-  var sql = 'INSERT INTO Project VALUES(\"' + req.body.Project_id + "\", \"" + req.body.Project_Name + "\", \"" + req.body.Sponsor + "\", \"" + req.body.Active + "\")";
+  var sql = 'INSERT INTO Project VALUES(\"' + req.body.Project_id + "\", \"" + req.body.Project_Name + "\", \"" + req.body.Sponsor + "\", \"" + req.body.Active + "\");" + 'INSERT INTO ProjectRelatedArea VALUES(\"' + req.body.Project_id + "\", \"" + req.body.Area_id + "\");"
+  + 'INSERT INTO ResearcherRelatedArea VALUES(\"' + req.body.id + "\", \"" + req.body.Area_id + "\");" ;
   console.log(sql);
   connection.query(sql, function(error, results, fields){
       
@@ -27,7 +29,5 @@ router.post('/', function(req, res, next) {
   })
   
 });
-
-connection.end();
 
 module.exports = router;

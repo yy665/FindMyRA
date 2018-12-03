@@ -6,7 +6,8 @@ var connection = mysql.createConnection({
   host: 'localhost',
   user: 'lechang3_root2',
   password: 'qwertyuiopas',
-  database: 'lechang3_test'
+  database: 'lechang3_test',
+  multipleStatements: true
 })
 
 connection.connect();
@@ -23,7 +24,7 @@ router.post('/', function(req, res, next) {
     case 'Student':
       sql = "INSERT INTO " + " Student " + " VALUES" + "(\"" + req.body.username +"\",\""+ req.body.password +"\",\""+ req.body.firstname + "\",\""+ req.body.lastname 
         + "\","+ req.body.seeking + ",\""+ req.body.degree + "\",\""+ req.body.year + "\","+ req.body.gpa + ",\""+  req.body.group 
-        + "\",\""+req.body.advisor +"\")" ;
+        + "\",\""+req.body.advisor +"\"); " +'INSERT INTO ResearcherRelatedArea VALUES(\"' + req.body.username + "\", \"" + req.body.group + "\");" ;
       break;
   }
   
@@ -44,6 +45,5 @@ router.post('/', function(req, res, next) {
   
 });
 
-connection.end();
 
 module.exports = router;

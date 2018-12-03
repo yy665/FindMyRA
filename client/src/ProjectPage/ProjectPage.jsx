@@ -45,9 +45,10 @@ class ProjectPage extends Component {
             dataIndex:"id",
             key:"id",
             render:(text,record,index)=>(<span>
-                    <Button id={text} type = "primary" onClick = {this.handlecurrentProjectDetails}>Details </Button>   
-                    <Button id={text} type = "danger" onClick = {this.handleProjectApply}> Apply </Button>
+                    <Button id={text} type = "default" onClick = {this.handlecurrentProjectDetails}>Details </Button>
                     {/* <Divider type = "vertical"/> */}
+                    <Button id={text} type = "primary" onClick = {this.handleProjectApply}> Apply </Button>
+                    
                     
                     </span>
                     )}],
@@ -70,7 +71,7 @@ class ProjectPage extends Component {
                         dataIndex:"id",
                         key:"id",
                         render:(text,record,index)=>(<span>
-                                <Button id={text} type = "primary" onClick = {this.handleenrolledProjectDetails}> Details </Button>
+                                <Button id={text} type = "default" onClick = {this.handleenrolledProjectDetails}> Details </Button>
                                 {/* <Divider type = "vertical"/> */}
                                 <Button id={text} type = "danger" onClick = {this.handleProjectDelete}> Delete </Button>
                                 </span>
@@ -113,7 +114,7 @@ class ProjectPage extends Component {
       })
 
     var adata = {
-        table: "StudentContributor",
+        table: "StudentContributor NATURAL JOIN Project",
         id: localStorage.user.split("\"")[3]
     }
 
@@ -136,6 +137,9 @@ class ProjectPage extends Component {
 				jsontmp = {
                     key :0,
                     id: data[i].Project_id,
+                    ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
 				}
 				tmp.push(jsontmp);
 			}
@@ -172,7 +176,7 @@ class ProjectPage extends Component {
       }).then(res => {
           console.log(res)
           var adata = {
-            table: "StudentContributor",
+            table: "StudentContributor NATURAL JOIN Project",
             id: localStorage.user.split("\"")[3]
         }
 
@@ -195,6 +199,9 @@ class ProjectPage extends Component {
                     jsontmp = {
                         key :0,
                         id: data[i].Project_id,
+                        ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
                     }
                     tmp.push(jsontmp);
                 }
@@ -226,7 +233,7 @@ class ProjectPage extends Component {
         }
       }).then(res => {
         var adata = {
-            table: "StudentContributor",
+            table: "StudentContributor NATURAL JOIN Project",
             id: localStorage.user.split("\"")[3]
         }
 
@@ -249,6 +256,9 @@ class ProjectPage extends Component {
                     jsontmp = {
                         key :0,
                         id: data[i].Project_id,
+                        ProjectName: data[i].Project_Name,
+						Sponsor: data[i].Sponsor,
+						Active: data[i].Active
                     }
                     tmp.push(jsontmp);
                 }

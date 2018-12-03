@@ -15,4 +15,3 @@ connection.connect();
     console.log(results)
   })
   
-  connection.end();
